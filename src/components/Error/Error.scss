@@ -1,0 +1,18 @@
+@use '../../styles/vars';
+
+.error {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: vars.$gutter ;
+    height: 100%;
+
+    &-message {
+        font-size: 40px;
+        font-weight: bold;
+        text-align: center;
+        display: block;
+        margin: 50px;
+    }
+}

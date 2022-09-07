@@ -1,26 +1,22 @@
-import logo from './logo.svg';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Routes, Route } from 'react-router-dom';
+import Home from '../Home/Home';
+import Error from '../Error/Error';
+import Recipe from '../../containers/RecipeCtn';
+
 import './App.scss';
 
-function App() {
-  console.log('toto à la plage');
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/recipe/:id" element={<Recipe />} />
+      <Route path="*" element={<Error />} />
+    </Routes>
+  )
 }
+
+App.propTypes = {}
 
 export default App;

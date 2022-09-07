@@ -1,0 +1,36 @@
+.recipe {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: calc(100vh - 100px);
+
+    &-div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        max-width: 30vw;
+    }
+
+    &-title {
+        font-size: 30px;
+        font-weight: bold;
+        margin: 10px 0px;
+        text-transform: uppercase;
+    }
+
+    &-reference {
+        font-style: italic;
+        font-size: 20px;
+        color: brown;
+        margin: 10px 0px;
+    }
+
+    &-indicators {
+        margin-top: 20px;
+        transform: scale(1.5);
+    }
+
+
+
+}
