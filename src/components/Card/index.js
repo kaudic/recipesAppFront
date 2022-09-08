@@ -1,3 +1,4 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import CardIndicators from '../CardIndicators/CardIndicators';
@@ -41,4 +42,4 @@ Card.propTypes = {
   name: PropTypes.string.isRequired,
 };
 
-export default Card;
+export default React.memo(Card);

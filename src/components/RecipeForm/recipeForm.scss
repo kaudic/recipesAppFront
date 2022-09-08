@@ -1,4 +1,4 @@
-.recipe {
+.recipeForm {
     display: flex;
     justify-content: space-around;
     height: calc(100vh - 150px);
@@ -9,7 +9,7 @@
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        max-width: 33vw;
+        min-width: 33vw;
     }
 
     &-title {
@@ -24,7 +24,6 @@
         font-size: 20px;
         color: brown;
         margin: 20px 0px;
-        text-align: center;
     }
 
     &-indicators {
@@ -32,6 +31,10 @@
         transform: scale(1.5);
     }
 
+}
 
-
+.ingredientForm {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
 }

@@ -15,11 +15,11 @@ const Ingredient = ({ ingredient }) => {
 
 Ingredient.propTypes = {
     modify: PropTypes.bool
-}
+};
 
 Ingredient.defaultProps = {
     modify: false
-}
+};
 
 
-export default Ingredient
+export default React.memo(Ingredient);

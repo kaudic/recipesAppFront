@@ -1,7 +1,8 @@
 import {
-  FETCH_RECIPES_LIST, actionSetRecipesList, actionSetSearchList
+  FETCH_RECIPES_LIST, FETCH_DELETE_RECIPE, FETCH_PUT_RECIPE,
+  actionSetRecipesList, actionSetSearchList, actionSetDeleteRecipe, actionSetPutRecipe
 } from '../actions/recipes';
-import { requestFetchRecipesList } from '../requests/recipesRequests';
+import { requestFetchRecipesList, requestFetchDeleteRecipe, requestFetchPutRecipe } from '../requests/recipesRequests';
 
 const recipesMiddleware = (store) => (next) => async (action) => {
   switch (action.type) {
@@ -19,7 +20,20 @@ const recipesMiddleware = (store) => (next) => async (action) => {
       }
       return;
     }
-
+    case FETCH_DELETE_RECIPE: {
+      const response = await requestFetchDeleteRecipe(action.payload);
+      if (response.status === 204) {
+        store.dispatch(actionSetDeleteRecipe(action.payload));
+      }
+      return;
+    }
+    case FETCH_PUT_RECIPE: {
+      const response = await requestFetchPutRecipe(action.payload);
+      if (response.status === 200) {
+        store.dispatch(actionSetPutRecipe(response.data));
+      }
+      return;
+    }
 
     default:
       next(action);

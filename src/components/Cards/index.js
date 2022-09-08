@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-
+import React from 'react';
 import Card from '../Card';
 
 import './style.scss';
@@ -50,4 +50,4 @@ Cards.defaultProps = {
   recipes: null,
 };
 
-export default Cards;
+export default React.memo(Cards);

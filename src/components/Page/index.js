@@ -1,3 +1,4 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import './page.scss';
 
@@ -11,4 +12,4 @@ Page.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export default Page;
+export default React.memo(Page);

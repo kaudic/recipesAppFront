@@ -28,6 +28,6 @@ const CardIndicators = (props) => {
     )
 }
 
-CardIndicators.propTypes = {}
+CardIndicators.propTypes = {};
 
-export default CardIndicators
+export default React.memo(CardIndicators);

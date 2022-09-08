@@ -54,9 +54,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-export default function Menu() {
+const Menu = () => {
     return (
-        <Box sx={{ flexGrow: 1, height: "100px" }}>
+        <Box sx={{ flexGrow: 1, height: "150px" }}>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton
@@ -105,3 +105,4 @@ export default function Menu() {
 
 Menu.propTypes = {}
 
+export default React.memo(Menu);

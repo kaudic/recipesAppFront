@@ -16,6 +16,6 @@ const Error = () => {
     )
 }
 
-Error.propTypes = {}
+Error.propTypes = {};
 
-export default Error
+export default React.memo(Error);

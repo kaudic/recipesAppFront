@@ -1,6 +1,10 @@
 export const SET_RECIPES_LIST = 'SET_RECIPES_LIST';
 export const SET_SEARCH_LIST = 'SET_SEARCH_LIST';
 export const FETCH_RECIPES_LIST = 'FETCH_RECIPES_LIST';
+export const FETCH_DELETE_RECIPE = 'FETCH_DELETE_RECIPE';
+export const SET_DELETE_RECIPE = 'SET_DELETE_RECIPE';
+export const FETCH_PUT_RECIPE = 'FETCH_PUT_RECIPE';
+export const SET_PUT_RECIPE = 'SET_PUT_RECIPE';
 
 /**
  * Store the array of recipes in Redux Store
@@ -28,3 +32,36 @@ export function actionSetSearchList(searchRecipes) {
   return { type: SET_SEARCH_LIST, payload: searchRecipes };
 }
 
+/**
+ * Send the API the recipe ID to delete
+ * @returns {Action}
+ */
+export function actionFetchDeleteRecipe(recipeId) {
+  return { type: FETCH_DELETE_RECIPE, payload: recipeId };
+}
+
+/**
+ * Update the store by deleting the recipe
+ * @returns {Action}
+ */
+export function actionSetDeleteRecipe(recipeId) {
+  return { type: SET_DELETE_RECIPE, payload: recipeId };
+}
+
+/**
+ * Making a PUT API call to modify a recipe
+ * @param {modifiedRecipe} modifiedRecipe 
+ * @returns {Action}
+ */
+export function actionFetchModifyRecipe(modifiedRecipe) {
+  return { type: 'FETCH_PUT_RECIPE', payload: modifiedRecipe }
+}
+
+/**
+ * Setting new value for a recipe in the Store
+ * @param {modifiedRecipe} modifiedRecipe 
+ * @returns {Action}
+ */
+export function actionSetPutRecipe(modifiedRecipe) {
+  return { type: 'SET_PUT_RECIPE', payload: modifiedRecipe }
+}
