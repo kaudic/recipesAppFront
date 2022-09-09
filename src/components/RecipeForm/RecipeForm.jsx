@@ -18,8 +18,10 @@ import Button from '@mui/material/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Tooltip from '@mui/material/Tooltip';
 import { IconButton } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
 import useControlledInput from '../../hooks/useControlledInput';
-import { actionFetchModifyRecipe } from '../../actions/recipes';
+import { actionFetchModifyRecipe, actionFetchPutImage } from '../../actions/recipes';
+import convertObjectToFormData from '../../Tools/convertObjectToFormData';
 
 const Recipe = ({ recipe, setModify, handleCancelClick }) => {
 
@@ -35,6 +37,8 @@ const Recipe = ({ recipe, setModify, handleCancelClick }) => {
     const [spreadInputPreparationTime, preparationTime, setPreparationTime] = useControlledInput(recipe.preparation_time.minutes);
     const [spreadInputCookingTime, cookingTime, setCookingTime] = useControlledInput(recipe.cooking_time.minutes);
     const [spreadInputText, text, setText] = useControlledInput(recipe.text);
+    const [imgData, setImgData] = useState('');
+    const [imageToLoad, setImageToLoad] = useState(false);
     const [ingredients, setIngredients] = useState(recipe.ingredients);
 
     // get dispatch function from Redux
@@ -50,7 +54,7 @@ const Recipe = ({ recipe, setModify, handleCancelClick }) => {
             recipe: {
                 title,
                 reference,
-                imgName: recipe.img_name,
+                // imgName: imgName is sent on different action with the submit of a new picture file
                 text,
                 mealQty,
                 cookingTime: `00:${cookingTime}:00`,
@@ -62,6 +66,30 @@ const Recipe = ({ recipe, setModify, handleCancelClick }) => {
         dispatch(actionFetchModifyRecipe(modifiedRecipe));
         setModify(false);
     }
+
+    // function to handle the image attachment
+    const handleChangeInputFile = (event) => {
+        const imgFile = event.target.files[0];
+
+        // Build the multipartFormData for the API and store it in the state
+        const imgData = {
+            recipeId: recipe.id,
+            imgName: imgFile.name,
+            imgFile
+        };
+        setImgData(imgData);
+    }
+
+    // function to submit an image file to the API
+    const handleUploadImg = (event) => {
+
+        // making the API call through redux middleware
+        dispatch(actionFetchPutImage(convertObjectToFormData(imgData)));
+
+        // emptying the state to hide button
+        setImgData('');
+
+    };
 
     return (
         <Page>
@@ -90,10 +118,22 @@ const Recipe = ({ recipe, setModify, handleCancelClick }) => {
                         <MicrowaveIcon color="success" sx={{ mr: 1, my: 0.5 }} />
                         <TextField id="" name="cookingTime" label="Temps cuisson" variant="standard" fullWidth {...spreadInputCookingTime} />
                     </Box>
-                    <Button sx={{ marginTop: '2rem' }} variant="contained" component="label" endIcon={<UploadIcon />}>
-                        Image
-                        <input type="file" hidden />
-                    </Button>
+                    <div className="recipeForm-upload">
+                        <Button sx={{ marginTop: '2rem' }} variant="contained" component="label" endIcon={<UploadIcon />}>
+                            Image
+                            <input type="file" onChange={handleChangeInputFile} hidden />
+                        </Button>
+
+                        {imgData !== '' &&
+                            <div >
+                                <div className="recipeForm-upload-image">{imgData.imgName}</div>
+                                <Button onClick={handleUploadImg} sx={{ backgroundColor: 'green', marginLeft: '10px', marginTop: '2rem' }} variant="contained" endIcon={<SendIcon />}>
+                                    Envoyer
+                                </Button>
+                            </div>
+                        }
+
+                    </div>
                 </div>
                 <div className="recipeForm-div">
                     <h1 className="recipeForm-title">Recette</h1>

@@ -23,7 +23,9 @@ const Recipe = ({ recipe, handleDeleteClick, handleModifyClick }) => {
                             <p>{recipe.reference}</p>
                         }
                     </h2>
-                    <img src={require(`../../assets/images/${recipe.img_name}`)} alt={"recipe.img_name"}></img>
+                    {/* <img src={require(`../../assets/images/${recipe.img_name}`)} alt={"recipe.img_name"}></img> */}
+                    <img src={`${process.env.REACT_APP_BASE_URL}/images/${recipe.img_name}`} alt={"recipe.img_name"}></img>
+
                     <CardIndicators className="recipe-indicators" qtyMeal={recipe.meal_qty} preparationTime={recipe.preparation_time.minutes} cookingTime={recipe.cooking_time.minutes} />
                 </div>
                 <div className="recipe-div">

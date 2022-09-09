@@ -1,5 +1,5 @@
-import { SET_RECIPES_LIST, SET_DELETE_RECIPE, SET_SEARCH_LIST, SET_PUT_RECIPE } from '../actions/recipes';
-import { deleteRecipeFromStateRecipes, updateRecipeFromStateRecipes } from '../selectors/recipes';
+import { SET_RECIPES_LIST, SET_DELETE_RECIPE, SET_SEARCH_LIST, SET_PUT_RECIPE, SET_PUT_IMG } from '../actions/recipes';
+import { deleteRecipeFromStateRecipes, updateRecipeFromStateRecipes, updateImgNameFromStateRecipes } from '../selectors/recipes';
 
 export const initialState = {
   list: [],
@@ -25,6 +25,11 @@ const reducer = (state = initialState, action = {}) => {
     case SET_PUT_RECIPE: {
       const modifiedRecipe = action.payload;
       const updatedState = { ...updateRecipeFromStateRecipes(state, modifiedRecipe) };
+      return updatedState;
+    }
+    case SET_PUT_IMG: {
+      const imgData = action.payload;
+      const updatedState = { ...updateImgNameFromStateRecipes(state, imgData) };
       return updatedState;
     }
 

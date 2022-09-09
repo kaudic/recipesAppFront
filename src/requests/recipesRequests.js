@@ -3,7 +3,7 @@ import apiAxios from './index';
 
 export async function requestFetchRecipesList() {
   try {
-    // http://localhost:3001/api defined by default in apiAxios
+    // BASE_URL/api defined by default in apiAxios
     const response = await apiAxios.get('/recipes');
     return response;
   }
@@ -14,7 +14,7 @@ export async function requestFetchRecipesList() {
 
 export async function requestFetchDeleteRecipe(recipeId) {
   try {
-    // http://localhost:3001/api defined by default in apiAxios
+    // BASE_URL/api defined by default in apiAxios
     const response = await apiAxios.delete(`/recipes/${recipeId}`);
     return response;
   }
@@ -25,8 +25,19 @@ export async function requestFetchDeleteRecipe(recipeId) {
 
 export async function requestFetchPutRecipe(modifiedRecipe) {
   try {
-    // http://localhost:3001/api defined by default in apiAxios
+    // BASE_URL/api defined by default in apiAxios
     const response = await apiAxios.put(`/recipes`, modifiedRecipe);
+    return response;
+  }
+  catch (err) {
+    return err.message;
+  }
+}
+
+export async function requestFetchPutImage(imgData) {
+  try {
+    // BASE_URL/api defined by default in apiAxios
+    const response = await apiAxios.put(`/recipes/uploadImage`, imgData);
     return response;
   }
   catch (err) {

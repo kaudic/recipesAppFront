@@ -5,6 +5,8 @@ export const FETCH_DELETE_RECIPE = 'FETCH_DELETE_RECIPE';
 export const SET_DELETE_RECIPE = 'SET_DELETE_RECIPE';
 export const FETCH_PUT_RECIPE = 'FETCH_PUT_RECIPE';
 export const SET_PUT_RECIPE = 'SET_PUT_RECIPE';
+export const FETCH_PUT_IMG = 'FETCH_PUT_IMG';
+export const SET_PUT_IMG = 'SET_PUT_IMG';
 
 /**
  * Store the array of recipes in Redux Store
@@ -65,3 +67,22 @@ export function actionFetchModifyRecipe(modifiedRecipe) {
 export function actionSetPutRecipe(modifiedRecipe) {
   return { type: 'SET_PUT_RECIPE', payload: modifiedRecipe }
 }
+
+/**
+ * Sending to the API image File and image Name for a recipe
+ * @param {imgData} imgData (image Name and image File)
+ * @returns {Action}
+ */
+export function actionFetchPutImage(imgData) {
+  return { type: 'FETCH_PUT_IMG', payload: imgData }
+}
+
+/**
+ * Update in the store the name of the recipe image
+ * @param {recipeId,imgName} imgData (image Name and recipe Id)
+ * @returns {Action}
+ */
+export function actionSetPutImg(imgData) {
+  return { type: 'SET_PUT_IMG', payload: imgData }
+}
+
