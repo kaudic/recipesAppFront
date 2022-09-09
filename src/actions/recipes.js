@@ -8,6 +8,7 @@ export const SET_PUT_RECIPE = 'SET_PUT_RECIPE';
 export const FETCH_PUT_IMG = 'FETCH_PUT_IMG';
 export const SET_PUT_IMG = 'SET_PUT_IMG';
 
+
 /**
  * Store the array of recipes in Redux Store
  * @param {Array<Object>} recipes list of recipes
@@ -24,6 +25,9 @@ export function actionSetRecipesList(recipes) {
 export function actionFetchRecipesList() {
   return { type: FETCH_RECIPES_LIST };
 }
+
+
+
 
 /**
  * Store in Redux Store the array of recipes corresponding to the search String 

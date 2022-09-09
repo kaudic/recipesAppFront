@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { actionFetchRecipesList } from '../actions/recipes';
+import { actionFetchUnitsList } from '../actions/units';
 
 import App from '../components/App/App';
 
@@ -10,7 +11,7 @@ const AppCtn = () => {
     // eslint asked me to remove async before the callback and add dispatch as a dependency;
     useEffect(() => {
         dispatch(actionFetchRecipesList());
-
+        dispatch(actionFetchUnitsList());
     }, [dispatch]);
 
     return (

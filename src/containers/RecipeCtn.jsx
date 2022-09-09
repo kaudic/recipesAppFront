@@ -11,10 +11,10 @@ const RecipeCtn = () => {
     const dispatch = useDispatch();
     const [modify, setModify] = useState(false);
 
-    // Getting the recipe information to display
+    // Getting the recipe and units information to display
     const { id: recipeId } = useParams();
     const recipe = useSelector((state) => findRecipeByPk(state.recipes.list, recipeId));
-
+    const units = useSelector((state) => (state.units.list));
 
     // Function to handle the click on delete button
     const handleDeleteClick = (event) => {
@@ -27,14 +27,13 @@ const RecipeCtn = () => {
         setModify((oldState) => !oldState);
     }
 
-
     // Returning the JSX component
     if (!recipe) {
         return <Navigate to="/" replace />
     };
 
     return (modify ?
-        <RecipeForm recipe={recipe} handleCancelClick={handleCancelOrModifyClick} setModify={setModify} /> :
+        <RecipeForm recipe={recipe} units={units} handleCancelClick={handleCancelOrModifyClick} setModify={setModify} /> :
         <Recipe recipe={recipe} handleDeleteClick={handleDeleteClick} handleModifyClick={handleCancelOrModifyClick} />)
 
 }

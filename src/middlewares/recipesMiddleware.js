@@ -2,6 +2,7 @@ import {
   FETCH_RECIPES_LIST, FETCH_DELETE_RECIPE, FETCH_PUT_RECIPE, FETCH_PUT_IMG,
   actionSetRecipesList, actionSetSearchList, actionSetDeleteRecipe, actionSetPutRecipe, actionSetPutImg
 } from '../actions/recipes';
+
 import { requestFetchRecipesList, requestFetchDeleteRecipe, requestFetchPutRecipe, requestFetchPutImage } from '../requests/recipesRequests';
 
 const recipesMiddleware = (store) => (next) => async (action) => {
@@ -38,8 +39,8 @@ const recipesMiddleware = (store) => (next) => async (action) => {
       const response = await requestFetchPutImage(action.payload);
       if (response.status === 200) {
         store.dispatch(actionSetPutImg({
-          recipeId: action.payload.recipeId,
-          imgName: action.payload.imgName
+          recipeId: response.data.result.id,
+          imgName: response.data.result.img_name
         }));
       }
       return;

@@ -23,7 +23,7 @@ import useControlledInput from '../../hooks/useControlledInput';
 import { actionFetchModifyRecipe, actionFetchPutImage } from '../../actions/recipes';
 import convertObjectToFormData from '../../Tools/convertObjectToFormData';
 
-const Recipe = ({ recipe, setModify, handleCancelClick }) => {
+const Recipe = ({ recipe, units, setModify, handleCancelClick }) => {
 
     // factorisation of Box Style
     const boxStyle = {
@@ -91,6 +91,31 @@ const Recipe = ({ recipe, setModify, handleCancelClick }) => {
 
     };
 
+    // function to handle the change on an ingredient qty
+    const updateIngredientsQtyChange = (ingredientId, newQty) => {
+        ingredients.forEach((ingredient) => {
+            if (parseInt(ingredient.id) === parseInt(ingredientId)) {
+                ingredient.qty = newQty;
+            }
+        })
+    };
+
+    // function to handle the change on an ingredient unitId
+    const updateIngredientsUnitChange = (ingredientId, unitId) => {
+        ingredients.forEach((ingredient) => {
+            if (parseInt(ingredient.id) === parseInt(ingredientId)) {
+                ingredient.unitId = unitId;
+            }
+        })
+    };
+
+    // function to delete an ingredient
+    const deleteIngredient = (ingredientId) => {
+        const ingredientIndex = ingredients.findIndex((ingredient) => parseInt(ingredient.id) === parseInt(ingredientId));
+        ingredients.splice(ingredientIndex, 1);
+    }
+
+
     return (
         <Page>
             <Menu />
@@ -157,7 +182,7 @@ const Recipe = ({ recipe, setModify, handleCancelClick }) => {
                         </Tooltip>
                     </h1>
                     <ul className="ingredientForm">
-                        {recipe.ingredients.map((ingredient) => <IngredientForm key={ingredient.id} ingredient={ingredient} />)}
+                        {recipe.ingredients.map((ingredient) => <IngredientForm key={ingredient.id} ingredient={ingredient} units={units} updateIngredientsQtyChange={updateIngredientsQtyChange} updateIngredientsUnitChange={updateIngredientsUnitChange} deleteIngredient={deleteIngredient} />)}
                     </ul>
                 </div>
             </form>

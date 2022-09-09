@@ -5,7 +5,6 @@ import './ingredient.scss';
 
 const Ingredient = ({ ingredient }) => {
 
-
     return (
         <li className="ingredient">
             <PlayArrowIcon fontSize="large" /> {ingredient.qty} {ingredient.unitName} {ingredient.name}
