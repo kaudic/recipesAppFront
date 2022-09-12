@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Page from '../Page';
 import Menu from '../Menu/Menu';
@@ -22,8 +22,10 @@ import SendIcon from '@mui/icons-material/Send';
 import useControlledInput from '../../hooks/useControlledInput';
 import { actionFetchModifyRecipe, actionFetchPutImage } from '../../actions/recipes';
 import convertObjectToFormData from '../../Tools/convertObjectToFormData';
+import IngredientDialogBox from '../IngredientDialogBox/IngredientDialogBox';
+import buildAutocompleteOptions from '../../Tools/buildAutocompleteOptions';
 
-const Recipe = ({ recipe, units, setModify, handleCancelClick }) => {
+const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelClick, handleModifyClick }) => {
 
     // factorisation of Box Style
     const boxStyle = {
@@ -37,13 +39,49 @@ const Recipe = ({ recipe, units, setModify, handleCancelClick }) => {
     const [spreadInputPreparationTime, preparationTime, setPreparationTime] = useControlledInput(recipe.preparation_time.minutes);
     const [spreadInputCookingTime, cookingTime, setCookingTime] = useControlledInput(recipe.cooking_time.minutes);
     const [spreadInputText, text, setText] = useControlledInput(recipe.text);
+
+    // state for image
     const [imgData, setImgData] = useState('');
     const [imageToLoad, setImageToLoad] = useState(false);
+
+    // Handle put, delete and create of ingredients
     const [ingredients, setIngredients] = useState(recipe.ingredients);
 
+    // States for dialog box
+    const [ingregientDialBoxOpen, setIngregientDialBoxOpen] = useState(false);
+    const [ingredientValue, setIngredientValue] = useState(null);
+    const [ingredientInputValue, setIngredientInputValue] = useState('');
+
+    const [qtyValue, setQtyValue] = useState(null);
+    const [unitValue, setUnitValue] = useState(null);
+
+    // function for dialog box to handle change of unit 
+    const handleChangeOfUnit = (event, value) => {
+        setUnitValue(value);
+    };
+    // function for dialog box to get the default unit id from chosen ingredient and pass it to the unit autocomplete
+    const handleChangeOfIngredient = (event, value) => {
+        const findUnitIndex = units.findIndex((unit) => parseInt(unit.id) === parseInt(value.unitId));
+        const unitValue = buildAutocompleteOptions([units[findUnitIndex]])[0];
+        setUnitValue(unitValue);
+        setIngredientValue(value);
+        setIngredientInputValue(value.label);
+
+        // check if ingredient is already in the recipe ingredients, if yes, then refuse the selection
+        ingredients.forEach((ingredient) => {
+            if (ingredient.id === value.id) {
+                alert('Cet ingrédient est déjà dans la recette');
+                setIngredientValue(null);
+                setIngredientInputValue('');
+            }
+        })
+    }
+    // function for dialog box to register in a state the qty of ingredient after each change of qty
+    const handleChangeOfQty = (event) => {
+        setQtyValue(event.target.value);
+    }
     // get dispatch function from Redux
     const dispatch = useDispatch();
-
     // function to make an API call to modify the current recipe
     const handleSubmitClick = (event) => {
         event.preventDefault();
@@ -66,7 +104,6 @@ const Recipe = ({ recipe, units, setModify, handleCancelClick }) => {
         dispatch(actionFetchModifyRecipe(modifiedRecipe));
         setModify(false);
     }
-
     // function to handle the image attachment
     const handleChangeInputFile = (event) => {
         const imgFile = event.target.files[0];
@@ -79,7 +116,6 @@ const Recipe = ({ recipe, units, setModify, handleCancelClick }) => {
         };
         setImgData(imgData);
     }
-
     // function to submit an image file to the API
     const handleUploadImg = (event) => {
 
@@ -90,36 +126,61 @@ const Recipe = ({ recipe, units, setModify, handleCancelClick }) => {
         setImgData('');
 
     };
-
     // function to handle the change on an ingredient qty
     const updateIngredientsQtyChange = (ingredientId, newQty) => {
         ingredients.forEach((ingredient) => {
             if (parseInt(ingredient.id) === parseInt(ingredientId)) {
                 ingredient.qty = newQty;
             }
-        })
+        });
+        setIngredients(ingredients);
     };
-
     // function to handle the change on an ingredient unitId
     const updateIngredientsUnitChange = (ingredientId, unitId) => {
         ingredients.forEach((ingredient) => {
             if (parseInt(ingredient.id) === parseInt(ingredientId)) {
                 ingredient.unitId = unitId;
             }
-        })
+        });
+        setIngredients(ingredients);
     };
-
     // function to delete an ingredient
     const deleteIngredient = (ingredientId) => {
-        const ingredientIndex = ingredients.findIndex((ingredient) => parseInt(ingredient.id) === parseInt(ingredientId));
-        ingredients.splice(ingredientIndex, 1);
+        const oldIngredients = [...ingredients];
+        const ingredientIndex = oldIngredients.findIndex((ingredient) => parseInt(ingredient.id) === parseInt(ingredientId));
+        oldIngredients.splice(ingredientIndex, 1);
+        console.log(...oldIngredients);
+        console.log('modifying the state of ingredients in RecipeForm');
+        setIngredients(oldIngredients);
     }
+    // function to display a dialogBox to add Ingredient to the Recipe
+    const handleIngredientDialBoxClickOpen = () => {
+        setIngregientDialBoxOpen(true);
+    };
+    // function to hide a dialogBox to add Ingredient to the Recipe
+    const handleIngredientDialBoxClickClose = () => {
+        setIngregientDialBoxOpen(false);
+    };
+    // function to hide a dialogBox to add Ingredient to the Recipe AND adding an ingredient
+    const handleIngredientDialBoxClickValidate = () => {
+        setIngregientDialBoxOpen(false);
+        const newIngredient = {
+            id: ingredientValue.id,
+            name: ingredientValue.label,
+            qty: qtyValue,
+            unitId: unitValue.id
+        };
 
+        if (ingredientValue.id && qtyValue && unitValue.id) {
+            ingredients.push(newIngredient);
+            setIngredients(ingredients);
+        }
+    }
 
     return (
         <Page>
             <Menu />
-            <RecipeFormBtns handleCancelClick={handleCancelClick} handleSubmitClick={handleSubmitClick} />
+            <RecipeFormBtns handleCancelClick={handleCancelClick} handleModifyClick={handleModifyClick} handleSubmitClick={handleSubmitClick} />
             <form className="recipeForm">
                 <div className="recipeForm-div">
                     <h1 className="recipeForm-title">Informations Générales</h1>
@@ -176,20 +237,33 @@ const Recipe = ({ recipe, units, setModify, handleCancelClick }) => {
                 <div className="recipeForm-div">
                     <h1 className="recipeForm-title">Liste des ingrédients
                         <Tooltip title="Ajouter Ingrédient">
-                            <IconButton>
+                            <IconButton onClick={handleIngredientDialBoxClickOpen}>
                                 <AddCircleIcon color="success" />
                             </IconButton>
                         </Tooltip>
                     </h1>
                     <ul className="ingredientForm">
-                        {recipe.ingredients.map((ingredient) => <IngredientForm key={ingredient.id} ingredient={ingredient} units={units} updateIngredientsQtyChange={updateIngredientsQtyChange} updateIngredientsUnitChange={updateIngredientsUnitChange} deleteIngredient={deleteIngredient} />)}
+                        {ingredients.map((ingredient) => <IngredientForm key={ingredient.id} ingredient={ingredient} units={units} updateIngredientsQtyChange={updateIngredientsQtyChange} updateIngredientsUnitChange={updateIngredientsUnitChange} deleteIngredient={deleteIngredient} />)}
                     </ul>
                 </div>
             </form>
+            <IngredientDialogBox
+                handleIngredientDialBoxClickClose={handleIngredientDialBoxClickClose}
+                handleIngredientDialBoxClickValidate={handleIngredientDialBoxClickValidate}
+                ingregientDialBoxOpen={ingregientDialBoxOpen}
+                units={units}
+                ingredientsList={ingredientsList}
+                handleChangeOfIngredient={handleChangeOfIngredient}
+                handleChangeOfUnit={handleChangeOfUnit}
+                ingredientInputValue={ingredientInputValue}
+                unitValue={unitValue}
+                handleChangeOfQty={handleChangeOfQty}
+            />
+
         </Page>
     )
 }
 
-Recipe.propTypes = {}
+RecipeForm.propTypes = {}
 
-export default React.memo(Recipe);
+export default React.memo(RecipeForm);

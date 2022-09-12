@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { actionFetchRecipesList } from '../actions/recipes';
 import { actionFetchUnitsList } from '../actions/units';
+import { actionFetchIngredientsList } from '../actions/ingredients';
 
 import App from '../components/App/App';
 
@@ -12,6 +13,7 @@ const AppCtn = () => {
     useEffect(() => {
         dispatch(actionFetchRecipesList());
         dispatch(actionFetchUnitsList());
+        dispatch(actionFetchIngredientsList());
     }, [dispatch]);
 
     return (

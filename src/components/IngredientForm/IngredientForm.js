@@ -25,7 +25,6 @@ const IngredientForm = ({ ingredient, units, updateIngredientsQtyChange, updateI
         updateIngredientsUnitChange(ingredient.id, event.target.value);
     };
 
-
     // function to delete an ingredient
     const handleClickDelete = (event) => {
         deleteIngredient(ingredient.id);
@@ -41,13 +40,13 @@ const IngredientForm = ({ ingredient, units, updateIngredientsQtyChange, updateI
                 id="demo-simple-select"
                 value={unit}
                 onChange={handleSelectUnitChange}
-            >{units.map((unit) => <MenuItem value={parseInt(unit.id)}>{unit.name}</MenuItem>)}
+            >{units.map((unit) => <MenuItem key={unit.id} value={parseInt(unit.id)}>{unit.name}</MenuItem>)}
             </Select>
 
             <TextField sx={{ width: '45%' }} value={ingredient.name} disabled />
             <ListItemIcon>
-                <IconButton>
-                    <DeleteIcon color="warning" onClick={handleClickDelete} />
+                <IconButton onClick={handleClickDelete}>
+                    <DeleteIcon color="warning" />
                 </IconButton>
             </ListItemIcon>
         </ListItem >

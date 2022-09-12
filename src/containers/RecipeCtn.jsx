@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, Navigate } from 'react-router-dom';
 import { findRecipeByPk } from '../selectors/recipes';
 import Recipe from '../components/Recipe/Recipe';
 import RecipeForm from '../components/RecipeForm/RecipeForm';
-import { actionFetchDeleteRecipe } from '../actions/recipes';
+import { actionFetchDeleteRecipe, actionFetchRecipesList } from '../actions/recipes';
 
 const RecipeCtn = () => {
     const dispatch = useDispatch();
@@ -15,6 +15,8 @@ const RecipeCtn = () => {
     const { id: recipeId } = useParams();
     const recipe = useSelector((state) => findRecipeByPk(state.recipes.list, recipeId));
     const units = useSelector((state) => (state.units.list));
+    const ingredientsList = useSelector((state) => (state.ingredients.list));
+
 
     // Function to handle the click on delete button
     const handleDeleteClick = (event) => {
@@ -22,9 +24,15 @@ const RecipeCtn = () => {
         dispatch(actionFetchDeleteRecipe(recipeId));
     }
 
-    // Function to handle the click on Cancel or modify button
-    const handleCancelOrModifyClick = () => {
+    // Function to handle the click on modify button
+    const handleModifyClick = () => {
         setModify((oldState) => !oldState);
+    }
+
+    // Function to handle the click on cancel button
+    const handleCancelClick = () => {
+        setModify((oldState) => !oldState);
+        dispatch(actionFetchRecipesList());
     }
 
     // Returning the JSX component
@@ -33,8 +41,8 @@ const RecipeCtn = () => {
     };
 
     return (modify ?
-        <RecipeForm recipe={recipe} units={units} handleCancelClick={handleCancelOrModifyClick} setModify={setModify} /> :
-        <Recipe recipe={recipe} handleDeleteClick={handleDeleteClick} handleModifyClick={handleCancelOrModifyClick} />)
+        <RecipeForm recipe={recipe} units={units} ingredientsList={ingredientsList} handleCancelClick={handleCancelClick} setModify={setModify} /> :
+        <Recipe recipe={recipe} handleDeleteClick={handleDeleteClick} handleModifyClick={handleModifyClick} />)
 
 }
 
