@@ -7,6 +7,7 @@ export const FETCH_PUT_RECIPE = 'FETCH_PUT_RECIPE';
 export const SET_PUT_RECIPE = 'SET_PUT_RECIPE';
 export const FETCH_PUT_IMG = 'FETCH_PUT_IMG';
 export const SET_PUT_IMG = 'SET_PUT_IMG';
+export const FETCH_CREATE_RECIPE = 'FETCH_CREATE_RECIPE';
 
 
 /**
@@ -62,6 +63,22 @@ export function actionSetDeleteRecipe(recipeId) {
 export function actionFetchModifyRecipe(modifiedRecipe) {
   return { type: 'FETCH_PUT_RECIPE', payload: modifiedRecipe }
 }
+
+/**
+ * Making a POST API call to create a new recipe
+ * @param {newRecipe} newRecipe 
+ * @returns {Action}
+ */
+export function actionFetchCreateRecipe(newRecipe, imgData) {
+  // condition to make a second request after creating the new recipe
+  if (imgData != '') {
+    return { type: 'FETCH_CREATE_RECIPE', payload: newRecipe, imgData }
+  }
+  return { type: 'FETCH_CREATE_RECIPE', payload: newRecipe }
+
+}
+
+
 
 /**
  * Setting new value for a recipe in the Store

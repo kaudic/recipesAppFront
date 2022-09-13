@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './recipeFormBtns.scss';
+import './RecipeFormModifyBtns.scss';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Page from '../Page';
-import Menu from '../Menu/Menu';
 import './recipeForm.scss';
 import { useDispatch } from 'react-redux';
 import IngredientForm from '../IngredientForm/IngredientForm';
-import RecipeFormBtns from '../RecipeFormBtns/RecipeFormBtns';
+import RecipeFormModifyBtns from '../RecipeFormModifyBtns/RecipeFormModifyBtns';
+import RecipeFormCreationBtns from '../RecipeFormCreationBtns/RecipeFormModifyBtns';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import TitleIcon from '@mui/icons-material/Title';
@@ -20,12 +20,12 @@ import Tooltip from '@mui/material/Tooltip';
 import { IconButton } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import useControlledInput from '../../hooks/useControlledInput';
-import { actionFetchModifyRecipe, actionFetchPutImage } from '../../actions/recipes';
+import { actionFetchModifyRecipe, actionFetchPutImage, actionFetchCreateRecipe } from '../../actions/recipes';
 import convertObjectToFormData from '../../Tools/convertObjectToFormData';
 import IngredientDialogBox from '../IngredientDialogBox/IngredientDialogBox';
 import buildAutocompleteOptions from '../../Tools/buildAutocompleteOptions';
 
-const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelClick, handleModifyClick }) => {
+const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelClick, handleModifyClick, creationMode }) => {
 
     // factorisation of Box Style
     const boxStyle = {
@@ -104,6 +104,27 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
         dispatch(actionFetchModifyRecipe(modifiedRecipe));
         setModify(false);
     }
+
+    // function to make an API call to create a new recipe
+    const handleCreationClick = (event) => {
+        event.preventDefault();
+
+        // building an object respecting API schema
+        const newRecipe = {
+            title,
+            reference,
+            // imgName: imgName is sent on different action with the submit of a formData
+            text,
+            mealQty,
+            cookingTime: `00:${cookingTime}:00`,
+            preparationTime: `00:${preparationTime}:00`,
+            typeId: 1,
+            ingredients
+        }
+        dispatch(actionFetchCreateRecipe(newRecipe, imgData));
+
+    }
+
     // function to handle the image attachment
     const handleChangeInputFile = (event) => {
         const imgFile = event.target.files[0];
@@ -175,12 +196,15 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
             ingredients.push(newIngredient);
             setIngredients(ingredients);
         }
-    }
+    };
 
     return (
         <Page>
-            <Menu />
-            <RecipeFormBtns handleCancelClick={handleCancelClick} handleModifyClick={handleModifyClick} handleSubmitClick={handleSubmitClick} />
+            {creationMode ?
+                <RecipeFormCreationBtns handleCreationClick={handleCreationClick} /> :
+                <RecipeFormModifyBtns handleCancelClick={handleCancelClick} handleModifyClick={handleModifyClick} handleSubmitClick={handleSubmitClick} />
+            }
+
             <form className="recipeForm">
                 <div className="recipeForm-div">
                     <h1 className="recipeForm-title">Informations Générales</h1>
@@ -264,6 +288,24 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
     )
 }
 
-RecipeForm.propTypes = {}
+RecipeForm.propTypes = {};
+
+RecipeForm.defaultProps = {
+    recipe: {
+        title: '',
+        reference: '',
+        meal_qty: '',
+        text: '',
+        preparation_time: {
+            minutes: ''
+        },
+        cooking_time: {
+            minutes: ''
+        },
+        ingredients: []
+    },
+    creationMode: false
+
+}
 
 export default React.memo(RecipeForm);

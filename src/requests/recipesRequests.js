@@ -34,6 +34,17 @@ export async function requestFetchPutRecipe(modifiedRecipe) {
   }
 }
 
+export async function requestFetchCreateRecipe(newRecipe) {
+  try {
+    // BASE_URL/api defined by default in apiAxios
+    const response = await apiAxios.post(`/recipes`, newRecipe);
+    return response;
+  }
+  catch (err) {
+    return err.message;
+  }
+}
+
 export async function requestFetchPutImage(imgData) {
   try {
     // BASE_URL/api defined by default in apiAxios

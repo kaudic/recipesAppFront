@@ -54,7 +54,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-const Menu = () => {
+const Menu = ({ handleSearchOnChange }) => {
+
+    const url = window.location.pathname;
+
     return (
         <Box sx={{ flexGrow: 1, height: "150px" }}>
             <AppBar position="static">
@@ -81,22 +84,22 @@ const Menu = () => {
                         <NavLink className="menu-link" to='/create'>
                             Créer
                         </NavLink>
-                        {/* <NavLink className="menu-link" to='/plan'>
-                            Planifier
-                        </NavLink> */}
                         <NavLink className="menu-link" to='/basket'>
                             Panier
                         </NavLink>
                     </Typography>
-                    <Search>
-                        <SearchIconWrapper>
-                            <SearchIcon />
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            placeholder="Search…"
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </Search>
+                    {url === '/' &&
+                        <Search
+                            onChange={handleSearchOnChange}>
+                            <SearchIconWrapper>
+                                <SearchIcon />
+                            </SearchIconWrapper>
+                            <StyledInputBase
+                                placeholder="Search…"
+                                inputProps={{ 'aria-label': 'search' }}
+                            />
+                        </Search>}
+
                 </Toolbar>
             </AppBar>
         </Box>

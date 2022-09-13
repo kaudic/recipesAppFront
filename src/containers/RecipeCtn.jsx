@@ -5,6 +5,7 @@ import { useParams, Navigate } from 'react-router-dom';
 import { findRecipeByPk } from '../selectors/recipes';
 import Recipe from '../components/Recipe/Recipe';
 import RecipeForm from '../components/RecipeForm/RecipeForm';
+import Menu from '../components/Menu/Menu';
 import { actionFetchDeleteRecipe, actionFetchRecipesList } from '../actions/recipes';
 
 const RecipeCtn = () => {
@@ -40,9 +41,17 @@ const RecipeCtn = () => {
         return <Navigate to="/" replace />
     };
 
-    return (modify ?
-        <RecipeForm recipe={recipe} units={units} ingredientsList={ingredientsList} handleCancelClick={handleCancelClick} setModify={setModify} /> :
-        <Recipe recipe={recipe} handleDeleteClick={handleDeleteClick} handleModifyClick={handleModifyClick} />)
+    return (
+        <>
+            <Menu />
+
+            {
+                modify ?
+                    <RecipeForm recipe={recipe} units={units} ingredientsList={ingredientsList} handleCancelClick={handleCancelClick} setModify={setModify} /> :
+                    <Recipe recipe={recipe} handleDeleteClick={handleDeleteClick} handleModifyClick={handleModifyClick} />
+            }
+        </>
+    )
 
 }
 
