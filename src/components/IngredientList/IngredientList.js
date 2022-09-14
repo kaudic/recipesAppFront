@@ -14,6 +14,7 @@ const IngredientList = ({
   updateIngredientsUnitChange,
   deleteIngredient,
   showQty,
+  enableIngredientName,
   ingredientListClassName,
   ingredientFormClassName
 }) => {
@@ -35,7 +36,8 @@ const IngredientList = ({
           updateIngredientsUnitChange={updateIngredientsUnitChange}
           deleteIngredient={deleteIngredient}
           ingredientFormClassName={ingredientFormClassName}
-          showQty={showQty} />)}
+          showQty={showQty}
+          enableIngredientName={enableIngredientName} />)}
       </ul>
     </>
 
@@ -49,7 +51,8 @@ IngredientList.propTypes = {
 IngredientList.defaultProps = {
   showQty: true,
   ingredientListClassName: '',
-  ingredientFormClassName: ''
+  ingredientFormClassName: '',
+  enableIngredientName: false
 }
 
 export default IngredientList;

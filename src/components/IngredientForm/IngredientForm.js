@@ -8,10 +8,11 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 
-const IngredientForm = ({ ingredient, units, updateIngredientsQtyChange, updateIngredientsUnitChange, deleteIngredient, showQty, ingredientFormClassName }) => {
+const IngredientForm = ({ ingredient, units, updateIngredientsQtyChange, updateIngredientsUnitChange, deleteIngredient, showQty, enableIngredientName, ingredientFormClassName }) => {
 
     const [qty, setQty] = useState(ingredient.qty);
-    const [unit, setUnit] = useState(ingredient.unitId);
+    const [unit, setUnit] = useState(ingredient.main_unit_id || ingredient.unitId);
+    const [name, setName] = useState(ingredient.name);
 
     // function to handle qty change
     const handleOnChangeQty = (event) => {
@@ -19,10 +20,21 @@ const IngredientForm = ({ ingredient, units, updateIngredientsQtyChange, updateI
         updateIngredientsQtyChange(ingredient.id, event.target.value);
     }
 
+    // function to handle the change if an ingredient's name
+    const handleOnChangeName = (event) => {
+        setName(event.target.value);
+    }
+
+    // function to handle the update an ingredient name after leaving the field
+    const handleOnBlurName = (event) => {
+        updateIngredientsUnitChange(ingredient.id, ingredient.main_unit_id, name);
+
+    }
+
     // function to handle a unit change
     const handleSelectUnitChange = (event) => {
         setUnit(event.target.value);
-        updateIngredientsUnitChange(ingredient.id, event.target.value);
+        updateIngredientsUnitChange(ingredient.id, event.target.value, name);
     };
 
     // function to delete an ingredient
@@ -43,7 +55,7 @@ const IngredientForm = ({ ingredient, units, updateIngredientsQtyChange, updateI
             >{units.map((unit) => <MenuItem key={unit.id} value={parseInt(unit.id)}>{unit.name}</MenuItem>)}
             </Select>
 
-            <TextField sx={{ width: '45%' }} value={ingredient.name} disabled />
+            <TextField sx={{ width: '45%' }} onBlur={handleOnBlurName} onChange={handleOnChangeName} value={name} disabled={enableIngredientName ? false : true} />
             <ListItemIcon>
                 <IconButton onClick={handleClickDelete}>
                     <DeleteIcon color="warning" />

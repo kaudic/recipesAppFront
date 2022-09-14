@@ -12,10 +12,15 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Autocomplete from '@mui/material/Autocomplete';
 import './ingredientDialogBox.scss';
 import buildAutocompleteOptions from '../../Tools/buildAutocompleteOptions';
+import RestaurantIcon from '@mui/icons-material/Restaurant';
+import Box from '@mui/material/Box';
 
 import PropTypes from 'prop-types';
 
+
 const IngredientDialogBox = ({
+    title,
+    subtitle,
     ingregientDialBoxOpen,
     handleIngredientDialBoxClickClose,
     handleIngredientDialBoxClickValidate,
@@ -23,9 +28,12 @@ const IngredientDialogBox = ({
     ingredientsList,
     handleChangeOfQty,
     handleChangeOfIngredient,
+    handleChangeName,
     handleChangeOfUnit,
-    ingredientInputValue,
-    unitValue }) => {
+    showQty,
+    unitValue,
+    name,
+    ingredientAutocomplete }) => {
 
     // Creating arrays for MUI autocomplete
     const unitsOptions = buildAutocompleteOptions(units);
@@ -33,25 +41,28 @@ const IngredientDialogBox = ({
 
     return (
 
-        <Dialog open={ingregientDialBoxOpen} onClose={handleIngredientDialBoxClickClose}>
-            <DialogTitle>Ajouter un ingrédient à la recette</DialogTitle>
+        <Dialog className="dialogBox" open={ingregientDialBoxOpen} onClose={handleIngredientDialBoxClickClose}>
+            <DialogTitle>{title}</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    Choisir un ingrédient dans la liste puis indiquer la quantité
+                    {subtitle}
                 </DialogContentText>
-                <Autocomplete
+
+                {ingredientAutocomplete ? <Autocomplete
                     id="ingredientsAutocomplete"
                     options={ingredientsOptions}
-                    inputValue={ingredientInputValue}
                     isOptionEqualToValue={(option, value) => option.id === value.id}
                     fullWidth
                     autoComplete
+                    value={name}
                     renderInput={(params) => (
                         <TextField {...params} label="Taper un ingrédient" variant="standard" />
                     )}
                     onChange={handleChangeOfIngredient}
-                />
-                <TextField
+                /> :
+                    <TextField sx={{ width: '100%' }} onChange={handleChangeName} label="Entrer un nom d'ingrédient" variant="standard" />
+                }
+                {showQty && <TextField
                     margin="dense"
                     id="name"
                     label="Rentrer une Quantité"
@@ -59,7 +70,7 @@ const IngredientDialogBox = ({
                     fullWidth
                     variant="standard"
                     onChange={handleChangeOfQty}
-                />
+                />}
                 <Autocomplete
                     id="unitsAutocomplete"
                     options={unitsOptions}
@@ -86,7 +97,11 @@ IngredientDialogBox.propTypes = {
 }
 
 IngredientDialogBox.defaultProps = {
-    modify: false
+    modify: false,
+    showQty: true,
+    title: 'Ajouter un ingrédient à la recette',
+    subtitle: 'Choisir un ingrédient dans la liste puis indiquer la quantité',
+    ingredientAutocomplete: true
 }
 
 export default React.memo(IngredientDialogBox);

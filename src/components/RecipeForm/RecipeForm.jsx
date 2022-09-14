@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Page from '../Page';
 import './recipeForm.scss';
 import { useDispatch } from 'react-redux';
-import IngredientForm from '../IngredientForm/IngredientForm';
 import RecipeFormModifyBtns from '../RecipeFormModifyBtns/RecipeFormModifyBtns';
 import RecipeFormCreationBtns from '../RecipeFormCreationBtns/RecipeFormModifyBtns';
 import Box from '@mui/material/Box';
@@ -15,9 +14,6 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import MicrowaveIcon from '@mui/icons-material/Microwave';
 import UploadIcon from '@mui/icons-material/Upload';
 import Button from '@mui/material/Button';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import Tooltip from '@mui/material/Tooltip';
-import { IconButton } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import useControlledInput from '../../hooks/useControlledInput';
 import { actionFetchModifyRecipe, actionFetchPutImage, actionFetchCreateRecipe } from '../../actions/recipes';
@@ -52,7 +48,6 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
     // States for dialog box
     const [ingregientDialBoxOpen, setIngregientDialBoxOpen] = useState(false);
     const [ingredientValue, setIngredientValue] = useState(null);
-    const [ingredientInputValue, setIngredientInputValue] = useState('');
 
     const [qtyValue, setQtyValue] = useState(null);
     const [unitValue, setUnitValue] = useState(null);
@@ -67,7 +62,6 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
         const unitValue = buildAutocompleteOptions([units[findUnitIndex]])[0];
         setUnitValue(unitValue);
         setIngredientValue(value);
-        setIngredientInputValue(value.label);
 
         // check if ingredient is already in the recipe ingredients, if yes, then refuse the selection
         ingredients.forEach((ingredient) => {
@@ -186,7 +180,6 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
     // function to initialize the states of the dialogbox after it closes
     const cancelDialogBoxState = () => {
         setIngredientValue(null);
-        setIngredientInputValue('');
         setQtyValue(null);
         setUnitValue(null);
     };
@@ -291,7 +284,6 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
                 ingredientsList={ingredientsList}
                 handleChangeOfIngredient={handleChangeOfIngredient}
                 handleChangeOfUnit={handleChangeOfUnit}
-                ingredientInputValue={ingredientInputValue}
                 unitValue={unitValue}
                 handleChangeOfQty={handleChangeOfQty}
             />
