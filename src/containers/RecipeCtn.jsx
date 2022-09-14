@@ -7,6 +7,7 @@ import Recipe from '../components/Recipe/Recipe';
 import RecipeForm from '../components/RecipeForm/RecipeForm';
 import Menu from '../components/Menu/Menu';
 import { actionFetchDeleteRecipe, actionFetchRecipesList } from '../actions/recipes';
+import Swal from 'sweetalert2';
 
 const RecipeCtn = () => {
     const dispatch = useDispatch();
@@ -22,7 +23,21 @@ const RecipeCtn = () => {
     // Function to handle the click on delete button
     const handleDeleteClick = (event) => {
         event.preventDefault();
-        dispatch(actionFetchDeleteRecipe(recipeId));
+        Swal.fire({
+            title: 'Etes vous sûr de vouloir supprimer la recette ?',
+            text: "Vous ne pourrez pas revenir en arrière!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Annuler',
+            confirmButtonText: 'Oui, supprimer!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(actionFetchDeleteRecipe(recipeId));
+            }
+        })
+
     }
 
     // Function to handle the click on modify button

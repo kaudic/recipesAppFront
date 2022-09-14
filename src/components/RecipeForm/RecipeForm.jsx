@@ -24,6 +24,8 @@ import { actionFetchModifyRecipe, actionFetchPutImage, actionFetchCreateRecipe }
 import convertObjectToFormData from '../../Tools/convertObjectToFormData';
 import IngredientDialogBox from '../IngredientDialogBox/IngredientDialogBox';
 import buildAutocompleteOptions from '../../Tools/buildAutocompleteOptions';
+import Swal from 'sweetalert2';
+import IngredientList from '../IngredientList/IngredientList';
 
 const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelClick, handleModifyClick, creationMode }) => {
 
@@ -70,9 +72,14 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
         // check if ingredient is already in the recipe ingredients, if yes, then refuse the selection
         ingredients.forEach((ingredient) => {
             if (ingredient.id === value.id) {
-                alert('Cet ingrédient est déjà dans la recette');
-                setIngredientValue(null);
-                setIngredientInputValue('');
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Cet ingrédient est déjà dans la recette',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                // alert('Cet ingrédient est déjà dans la recette');
+                cancelDialogBoxState();
             }
         })
     }
@@ -104,7 +111,6 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
         dispatch(actionFetchModifyRecipe(modifiedRecipe));
         setModify(false);
     }
-
     // function to make an API call to create a new recipe
     const handleCreationClick = (event) => {
         event.preventDefault();
@@ -113,7 +119,7 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
         const newRecipe = {
             title,
             reference,
-            // imgName: imgName is sent on different action with the submit of a formData
+            // imgName: imgName is sent on a PUT request with a formData
             text,
             mealQty,
             cookingTime: `00:${cookingTime}:00`,
@@ -124,7 +130,6 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
         dispatch(actionFetchCreateRecipe(newRecipe, imgData));
 
     }
-
     // function to handle the image attachment
     const handleChangeInputFile = (event) => {
         const imgFile = event.target.files[0];
@@ -178,9 +183,18 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
     const handleIngredientDialBoxClickOpen = () => {
         setIngregientDialBoxOpen(true);
     };
+    // function to initialize the states of the dialogbox after it closes
+    const cancelDialogBoxState = () => {
+        setIngredientValue(null);
+        setIngredientInputValue('');
+        setQtyValue(null);
+        setUnitValue(null);
+    };
     // function to hide a dialogBox to add Ingredient to the Recipe
     const handleIngredientDialBoxClickClose = () => {
         setIngregientDialBoxOpen(false);
+        // cancel all the states so that next time dialogbox shows up, it is empty
+        cancelDialogBoxState();
     };
     // function to hide a dialogBox to add Ingredient to the Recipe AND adding an ingredient
     const handleIngredientDialBoxClickValidate = () => {
@@ -196,6 +210,8 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
             ingredients.push(newIngredient);
             setIngredients(ingredients);
         }
+        // cancel all the states so that next time dialogbox shows up, it is empty
+        cancelDialogBoxState();
     };
 
     return (
@@ -235,14 +251,12 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
                         </Button>
 
                         {imgData !== '' &&
-                            <div >
-                                <div className="recipeForm-upload-image">{imgData.imgName}</div>
-                                <Button onClick={handleUploadImg} sx={{ backgroundColor: 'green', marginLeft: '10px', marginTop: '2rem' }} variant="contained" endIcon={<SendIcon />}>
-                                    Envoyer
-                                </Button>
-                            </div>
+                            <div className="recipeForm-upload-image">{imgData.imgName}</div>
                         }
-
+                        {imgData !== '' && !creationMode &&
+                            <Button onClick={handleUploadImg} sx={{ backgroundColor: 'green', marginLeft: '10px', marginTop: '2rem' }} variant="contained" endIcon={<SendIcon />}>
+                                Envoyer
+                            </Button>}
                     </div>
                 </div>
                 <div className="recipeForm-div">
@@ -259,16 +273,14 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
                     />
                 </div>
                 <div className="recipeForm-div">
-                    <h1 className="recipeForm-title">Liste des ingrédients
-                        <Tooltip title="Ajouter Ingrédient">
-                            <IconButton onClick={handleIngredientDialBoxClickOpen}>
-                                <AddCircleIcon color="success" />
-                            </IconButton>
-                        </Tooltip>
-                    </h1>
-                    <ul className="ingredientForm">
-                        {ingredients.map((ingredient) => <IngredientForm key={ingredient.id} ingredient={ingredient} units={units} updateIngredientsQtyChange={updateIngredientsQtyChange} updateIngredientsUnitChange={updateIngredientsUnitChange} deleteIngredient={deleteIngredient} />)}
-                    </ul>
+                    <IngredientList
+                        handleIngredientDialBoxClickOpen={handleIngredientDialBoxClickOpen}
+                        ingredients={ingredients}
+                        units={units}
+                        updateIngredientsQtyChange={updateIngredientsQtyChange}
+                        updateIngredientsUnitChange={updateIngredientsUnitChange}
+                        deleteIngredient={deleteIngredient}
+                        ingredientListClassName={"ingredientForm"} />
                 </div>
             </form>
             <IngredientDialogBox

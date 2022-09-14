@@ -4,6 +4,7 @@ import {
 } from '../actions/recipes';
 import { requestFetchRecipesList, requestFetchDeleteRecipe, requestFetchPutRecipe, requestFetchPutImage, requestFetchCreateRecipe } from '../requests/recipesRequests';
 import convertObjectToFormData from '../Tools/convertObjectToFormData';
+import Swal from 'sweetalert2';
 
 const recipesMiddleware = (store) => (next) => async (action) => {
   switch (action.type) {
@@ -39,12 +40,21 @@ const recipesMiddleware = (store) => (next) => async (action) => {
       const response = await requestFetchCreateRecipe(action.payload);
       // if an imgData was sent then we complete it with the newly id got after recipe creation
       if (response.status === 200) {
+        // message to confirm creation to the user
+        console.log('sending a message');
+        Swal.fire({
+          icon: 'success',
+          title: 'Recette créée!',
+          showConfirmButton: false,
+          timer: 1500
+        })
         if (action.imgData) {
           action.imgData.recipeId = response.data.id
-          // making the API call through redux middleware
+          // and then we make the API call through a redux middleware to update the image
           store.dispatch(actionFetchPutImage(convertObjectToFormData(action.imgData)));
         }
-        setTimeout(() => store.dispatch(actionFetchRecipesList()), 1000);
+        // we make another call to get all recipes after a slight timeout so that the update of image is fully finished
+        setTimeout(() => store.dispatch(actionFetchRecipesList()), 500);
       }
       return;
     }

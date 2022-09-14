@@ -8,7 +8,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 
-const IngredientForm = ({ ingredient, units, updateIngredientsQtyChange, updateIngredientsUnitChange, deleteIngredient }) => {
+const IngredientForm = ({ ingredient, units, updateIngredientsQtyChange, updateIngredientsUnitChange, deleteIngredient, showQty, ingredientFormClassName }) => {
 
     const [qty, setQty] = useState(ingredient.qty);
     const [unit, setUnit] = useState(ingredient.unitId);
@@ -31,8 +31,8 @@ const IngredientForm = ({ ingredient, units, updateIngredientsQtyChange, updateI
     };
 
     return (
-        <ListItem sx={{ width: '90%' }} >
-            <TextField sx={{ width: '15%' }} value={qty} onChange={handleOnChangeQty} />
+        <ListItem sx={{ width: '90%' }} className={ingredientFormClassName}>
+            {showQty && <TextField sx={{ width: '15%' }} value={qty} onChange={handleOnChangeQty} />}
 
             <Select
                 sx={{ width: '30%' }}
@@ -58,7 +58,7 @@ IngredientForm.propTypes = {
 };
 
 IngredientForm.defaultProps = {
-
+    ingredientListClassName: ''
 };
 
 

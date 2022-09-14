@@ -14,7 +14,7 @@ const Recipe = ({ recipe, handleDeleteClick, handleModifyClick }) => {
         <Page>
             <RecipeBtns handleDeleteClick={handleDeleteClick} handleModifyClick={handleModifyClick} />
             <div className="recipe">
-                <div className="recipe-div">
+                <div className="recipe-div-arrows">
                     <CarouselArrow direction={"left"} />
                 </div>
                 <div className="recipe-div">
@@ -39,7 +39,7 @@ const Recipe = ({ recipe, handleDeleteClick, handleModifyClick }) => {
                         {recipe.ingredients.map((ingredient) => <Ingredient key={ingredient.id} ingredient={ingredient} />)}
                     </ul>
                 </div>
-                <div className="recipe-div">
+                <div className="recipe-div-arrows">
                     <CarouselArrow direction={"right"} />
                 </div>
             </div>

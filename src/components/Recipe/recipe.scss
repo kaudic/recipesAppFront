@@ -9,7 +9,11 @@
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        max-width: 33vw;
+        width: 30vw;
+
+        &-arrows {
+            width: 5vw;
+        }
     }
 
     &-title {

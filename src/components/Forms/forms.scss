@@ -1,3 +1,15 @@
 .forms {
     display: flex;
+
+    &-ingredientList {
+        width: 80vw;
+        display: flex;
+        height: 30vh;
+        flex-wrap: wrap;
+        overflow: auto;
+
+        &-ingredientForm {
+            width: 500px !important;
+        }
+    }
 }
