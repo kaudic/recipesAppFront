@@ -6,7 +6,6 @@ import { IconButton, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
 
 const IngredientForm = ({ ingredient, units, updateIngredientsQtyChange, updateIngredientsUnitChange, deleteIngredient, showQty, enableIngredientName, ingredientFormClassName }) => {
 
@@ -28,7 +27,6 @@ const IngredientForm = ({ ingredient, units, updateIngredientsQtyChange, updateI
     // function to handle the update an ingredient name after leaving the field
     const handleOnBlurName = (event) => {
         updateIngredientsUnitChange(ingredient.id, ingredient.main_unit_id, name);
-
     }
 
     // function to handle a unit change

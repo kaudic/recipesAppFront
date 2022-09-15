@@ -40,13 +40,38 @@
   &-link {
     background-color: vars.$color;
     color: white;
-    display: block;
+    display: inline-block;
+    margin: 0 10px;
+    width: 150px;
+    height: 40px;
     text-align: center;
     padding: vars.$halfGutter;
     border-radius: 3px;
 
     &:hover {
       background-color: color.scale(vars.$color, $lightness: -30%);
+    }
+  }
+
+  &-btn {
+    background-color: green;
+    color: white;
+    margin: 0 10px;
+    text-align: center;
+    width: 150px;
+    height: 40px;
+    display: inline-block;
+    padding: vars.$halfGutter;
+    border-radius: 3px;
+    border: none;
+
+    &-ctn {
+      display: flex;
+      justify-content: center;
+    }
+
+    &:hover {
+      background-color: color.scale(green, $lightness: -30%);
     }
   }
 }

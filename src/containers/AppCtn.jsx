@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { actionFetchRecipesList } from '../actions/recipes';
 import { actionFetchUnitsList } from '../actions/units';
 import { actionFetchIngredientsList } from '../actions/ingredients';
+import { actionFetchBasketList } from '../actions/basket';
 
 import App from '../components/App/App';
 
@@ -14,6 +15,7 @@ const AppCtn = () => {
         dispatch(actionFetchRecipesList());
         dispatch(actionFetchUnitsList());
         dispatch(actionFetchIngredientsList());
+        dispatch(actionFetchBasketList());
     }, [dispatch]);
 
     return (

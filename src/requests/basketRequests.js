@@ -1,9 +1,9 @@
 import apiAxios from './index';
 
-export async function requestFetchIngredientsList() {
+export async function requestFetchBasketList() {
     try {
         // BASE_URL/api defined by default in apiAxios
-        const response = await apiAxios.get('/ingredients');
+        const response = await apiAxios.get('/basket');
         return response;
     }
     catch (err) {
@@ -11,10 +11,10 @@ export async function requestFetchIngredientsList() {
     }
 }
 
-export async function requestFetchDeleteIngredient(ingredientId) {
+export async function requestFetchDeleteAllBasket() {
     try {
         // BASE_URL/api defined by default in apiAxios
-        const response = await apiAxios.delete(`/ingredients/${ingredientId}`);
+        const response = await apiAxios.delete('/basket');
         return response;
     }
     catch (err) {
@@ -22,10 +22,10 @@ export async function requestFetchDeleteIngredient(ingredientId) {
     }
 }
 
-export async function requestFetchPutIngredient(updatedIngredient) {
+export async function requestFetchAddOneBasket(recipeId) {
     try {
         // BASE_URL/api defined by default in apiAxios
-        const response = await apiAxios.put(`/ingredients`, updatedIngredient);
+        const response = await apiAxios.get(`/basket/${recipeId}`);
         return response;
     }
     catch (err) {
@@ -33,10 +33,10 @@ export async function requestFetchPutIngredient(updatedIngredient) {
     }
 }
 
-export async function requestFetchCreateIngredient(newIngredient) {
+export async function requestFetchDeleteOneBasket(recipeId) {
     try {
         // BASE_URL/api defined by default in apiAxios
-        const response = await apiAxios.post(`/ingredients`, newIngredient);
+        const response = await apiAxios.delete(`/basket/${recipeId}`);
         return response;
     }
     catch (err) {

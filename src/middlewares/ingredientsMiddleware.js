@@ -1,8 +1,9 @@
-import { FETCH_INGREDIENTS_LIST, FETCH_DELETE_INGREDIENT, FETCH_PUT_INGREDIENT, actionSetIngredientsList, actionFetchIngredientsList } from '../actions/ingredients';
-import { requestFetchIngredientsList, requestFetchDeleteIngredient, requestFetchPutIngredient } from '../requests/ingredientsRequests';
+import { FETCH_INGREDIENTS_LIST, FETCH_DELETE_INGREDIENT, FETCH_PUT_INGREDIENT, FETCH_CREATE_INGREDIENT, actionSetIngredientsList, actionFetchIngredientsList } from '../actions/ingredients';
+import { requestFetchIngredientsList, requestFetchDeleteIngredient, requestFetchPutIngredient, requestFetchCreateIngredient } from '../requests/ingredientsRequests';
 import Swal from 'sweetalert2';
 
 const ingredientsMiddleware = (store) => (next) => async (action) => {
+  // console.log('action received: ' + action.type);
   switch (action.type) {
     case FETCH_INGREDIENTS_LIST: {
       const response = await requestFetchIngredientsList();
@@ -49,6 +50,29 @@ const ingredientsMiddleware = (store) => (next) => async (action) => {
           icon: 'error',
           title: 'Oops...',
           text: 'Erreur lors de la modification de l\'unité principale de l\'ingrédient',
+        })
+      }
+      return;
+    }
+    case FETCH_CREATE_INGREDIENT: {
+      console.log('launching requestFetchCreate');
+      const response = await requestFetchCreateIngredient(action.payload);
+      if (response.status === 200) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Good job',
+          text: 'Ingrédient créé!',
+        })
+        store.dispatch(
+          // fetching a new list from API after updating one ingredient
+          actionFetchIngredientsList()
+        );
+      } else {
+        // usually if status code = 500 it is because ingredient is used in recipe
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Erreur lors de la création de l\'ingrédient',
         })
       }
       return;

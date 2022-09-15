@@ -12,8 +12,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Autocomplete from '@mui/material/Autocomplete';
 import './ingredientDialogBox.scss';
 import buildAutocompleteOptions from '../../Tools/buildAutocompleteOptions';
-import RestaurantIcon from '@mui/icons-material/Restaurant';
-import Box from '@mui/material/Box';
 
 import PropTypes from 'prop-types';
 

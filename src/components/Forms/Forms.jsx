@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Menu from '../Menu/Menu';
 import FormsTabs from '../FormsTabs/FormsTabs';
@@ -7,7 +7,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import './forms.scss';
 import IngredientList from '../IngredientList/IngredientList';
 import IngredientDialogBox from '../IngredientDialogBox/IngredientDialogBox';
-import { actionFetchDeleteIngredient, actionFetchPutIngredient } from '../../actions/ingredients';
+import { actionFetchDeleteIngredient, actionFetchPutIngredient, actionFetchCreateIngredient } from '../../actions/ingredients';
+import { actionFetchDeleteUnit, actionFetchPutUnit, actionFetchCreateUnit } from '../../actions/units';
+import filterArray from '../../Tools/filterArray';
+import TextField from '@mui/material/TextField';
+import UnitDialogBox from '../UnitDialogBox/UnitDialogBox';
+import UnitList from '../UnitList/UnitList';
 
 const Forms = () => {
     const dispatch = useDispatch();
@@ -19,12 +24,49 @@ const Forms = () => {
     // State for the value - it represents the selected entry of the side menu
     const [tabsValue, setTabsValue] = useState(0);
 
-    // States for dialog box
+    // States for the search inputs
+    const [searchIngredientsString, setSearchIngredientsString] = useState('');
+    const [searchIngredients, setSearchIngredients] = useState();
+    const [searchUnitsString, setSearchUnitsString] = useState('');
+    const [searchUnits, setSearchUnits] = useState();
+
+    useEffect(() => {
+        if (searchIngredientsString !== '') {
+            const searchIngredients = filterArray(ingredients, searchIngredientsString);
+            setSearchIngredients(searchIngredients)
+        } else {
+            setSearchIngredients(ingredients)
+        }
+    }, [searchIngredientsString, ingredients])
+
+    useEffect(() => {
+        if (searchUnitsString !== '') {
+            const searchUnits = filterArray(units, searchUnitsString);
+            setSearchUnits(searchUnits)
+        } else {
+            setSearchUnits(units)
+        }
+    }, [searchUnitsString, units])
+
+    // function to filter the ingredients on screen
+    const handleIngredientsSearchOnChange = (event) => {
+        setSearchIngredientsString(event.target.value);
+    }
+    // function to filter the units on screen
+    const handleUnitsSearchOnChange = (event) => {
+        setSearchUnitsString(event.target.value);
+    }
+
+    // States for ingredients dialog box
     const [ingregientDialBoxOpen, setIngregientDialBoxOpen] = useState(false);
     const [ingredientInputValue, setIngredientInputValue] = useState('');
     const [unitValue, setUnitValue] = useState(null);
     const [name, setName] = useState('');
 
+    // States for units dialog box
+    const [unitDialBoxOpen, setUnitDialBoxOpen] = useState(false);
+    const [unitNameInputValue, setUnitNameInputValue] = useState('');
+    const [unitShortNameInputValue, setUnitShortNameInputValue] = useState('');
 
     // function for dialog box to handle change of unit 
     const handleChangeOfUnit = (event, value) => {
@@ -33,6 +75,14 @@ const Forms = () => {
     // function for dialog box to get the default unit id from chosen ingredient and pass it to the unit autocomplete
     const handleChangeName = (event) => {
         setName(event.target.value);
+    }
+    // function to change name of unit
+    const handleChangeUnitName = (event) => {
+        setUnitNameInputValue(event.target.value);
+    }
+    // function to change short name of unit
+    const handleChangeUnitShortName = (event) => {
+        setUnitShortNameInputValue(event.target.value);
     }
 
     // On click on a tab the value will be updated
@@ -43,25 +93,52 @@ const Forms = () => {
     const deleteIngredient = (ingredientId) => {
         dispatch(actionFetchDeleteIngredient(ingredientId));
     }
+    // function for unit management Tab - delete unit from list
+    const deleteUnit = (unitId) => {
+        dispatch(actionFetchDeleteUnit(unitId));
+    }
     // function for ingredient management Tab - update ingredient default unit
     const updateIngredientsUnitChange = (id, mainUnitId, name) => {
         const updatedIngredient = { id, "ingredient": { name, mainUnitId } };
         dispatch(actionFetchPutIngredient(updatedIngredient));
     }
+    // function for unit management Tab - update unit name and short name 
+    const updateUnitChange = (id, unitNameInputValue, unitShortNameInputValue) => {
+        const updatedUnit = { id, "unit": { name: unitNameInputValue, shortName: unitShortNameInputValue } };
+        dispatch(actionFetchPutUnit(updatedUnit));
+    }
+
     // function to display a dialogBox to add Ingredient to the Recipe
     const handleIngredientDialBoxClickOpen = () => {
         setIngregientDialBoxOpen(true);
     };
-    // function to initialize the states of the dialogbox after it closes
+    // function to display a dialogBox to add Unit to the Unit List
+    const handleUnitDialBoxClickOpen = () => {
+        setUnitDialBoxOpen(true);
+    };
+
+    // function to initialize the states of the ingredients dialogbox after it closes
     const cancelDialogBoxState = () => {
         setIngredientInputValue('');
         setUnitValue(null);
     };
+    // function to initialize the states of the units dialogbox after it closes
+    const cancelUnitDialogBoxState = () => {
+        setUnitNameInputValue('');
+        setUnitShortNameInputValue('');
+    };
+
     // function to hide a dialogBox to add Ingredient to the Recipe
     const handleIngredientDialBoxClickClose = () => {
         setIngregientDialBoxOpen(false);
         // cancel all the states so that next time dialogbox shows up, it is empty
         cancelDialogBoxState();
+    };
+    // function to hide a dialogBox to add Units to the Recipe
+    const handleUnitDialBoxClickClose = () => {
+        setUnitDialBoxOpen(false);
+        // cancel all the states so that next time dialogbox shows up, it is empty
+        cancelUnitDialogBoxState();
     };
 
     // function to hide a dialogBox and send to API the creation of a new ingredient
@@ -71,13 +148,26 @@ const Forms = () => {
             name,
             mainUnitId: unitValue.id
         };
-
-        // TODO API call to create a new ingredient
-        console.log(newIngredient);
-
+        // API call to create a new ingredient
+        dispatch(actionFetchCreateIngredient(newIngredient));
         // cancel all the states so that next time dialogbox shows up, it is empty
         cancelDialogBoxState();
     };
+
+    // function to hide a dialogBox and send to API the creation of a new unit
+    const handleUnitDialBoxClickValidate = () => {
+        setUnitDialBoxOpen(false);
+        const newUnit = {
+            name: unitNameInputValue,
+            shortName: unitShortNameInputValue
+        };
+        // API call to create a new unit
+        dispatch(actionFetchCreateUnit(newUnit));
+        // cancel all the states so that next time dialogbox shows up, it is empty
+        cancelUnitDialogBoxState()
+    };
+
+
 
     return (
         <>
@@ -86,10 +176,12 @@ const Forms = () => {
                 <FormsTabs handleTabsChange={handleTabsChange} tabsValue={tabsValue} />
                 {tabsValue === 0 && <RecipeForm units={units} ingredientsList={ingredients} creationMode={true} />}
                 {tabsValue === 1 &&
-                    <div>
+                    <div className="forms-ingredient">
+                        <TextField onChange={handleIngredientsSearchOnChange} placeholder="Rechercher un ingrédient" />
                         <IngredientList
                             handleIngredientDialBoxClickOpen={handleIngredientDialBoxClickOpen}
-                            ingredients={ingredients}
+                            ingredients={searchIngredients}
+                            searchString={searchIngredientsString}
                             units={units}
                             updateIngredientsUnitChange={updateIngredientsUnitChange}
                             deleteIngredient={deleteIngredient}
@@ -115,7 +207,31 @@ const Forms = () => {
                             handleChangeName={handleChangeName}
                         />
                     </div>}
-
+                {tabsValue === 2 &&
+                    <div className="forms-unit">
+                        <TextField onChange={handleUnitsSearchOnChange} placeholder="Rechercher une unité" />
+                        <UnitList
+                            units={searchUnits}
+                            handleUnitDialBoxClickOpen={handleUnitDialBoxClickOpen}
+                            searchString={searchUnitsString}
+                            updateUnitChange={updateUnitChange}
+                            deleteUnit={deleteUnit}
+                            ingredientListClassName={"forms-unitList"}
+                            ingredientFormClassName={"forms-unitList-unitForm"}
+                        />
+                        <UnitDialogBox
+                            title={"Créer une nouvelle unité"}
+                            subtitle={"Rentrer un nom d'unité et une abréviation"}
+                            handleUnitDialBoxClickClose={handleUnitDialBoxClickClose}
+                            handleUnitDialBoxClickValidate={handleUnitDialBoxClickValidate}
+                            unitDialBoxOpen={unitDialBoxOpen}
+                            units={units}
+                            handleChangeUnitShortName={handleChangeUnitShortName}
+                            handleChangeUnitName={handleChangeUnitName}
+                            unitNameInputValue={unitNameInputValue}
+                            unitShortNameInputValue={unitShortNameInputValue}
+                        />
+                    </div>}
             </div>
         </>
 
