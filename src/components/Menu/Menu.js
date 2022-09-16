@@ -11,6 +11,8 @@ import BlenderIcon from '@mui/icons-material/Blender';
 import SearchIcon from '@mui/icons-material/Search';
 import { NavLink } from 'react-router-dom';
 import './menu.scss';
+import Badge from '@mui/material/Badge';
+import { useSelector } from 'react-redux';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -57,6 +59,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const Menu = ({ handleSearchOnChange }) => {
 
     const url = window.location.pathname;
+    console.log('trying to get state');
+
+    const recipeCount = useSelector((state) => state?.basket?.list?.recipesCount[0]?.count || 0);
 
     return (
         <Box sx={{ flexGrow: 1, height: "150px" }}>
@@ -77,7 +82,7 @@ const Menu = ({ handleSearchOnChange }) => {
                         variant="h6"
                         noWrap
                         component="div"
-                        sx={{ display: { xs: 'none', sm: 'block' } }}>
+                        sx={{ display: { xs: 'none', sm: 'block', overflow: 'visible' } }}>
                         <NavLink className="menu-link" to='/'>
                             Consulter
                         </NavLink>
@@ -85,8 +90,11 @@ const Menu = ({ handleSearchOnChange }) => {
                             Créer
                         </NavLink>
                         <NavLink className="menu-link" to='/basket'>
-                            Panier
+                            <Badge badgeContent={recipeCount} color="secondary">
+                                Panier
+                            </Badge>
                         </NavLink>
+
                     </Typography>
                     {url === '/' &&
                         <Search

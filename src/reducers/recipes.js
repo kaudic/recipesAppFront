@@ -32,7 +32,6 @@ const reducer = (state = initialState, action = {}) => {
       const updatedState = { ...updateImgNameFromStateRecipes(state, imgData) };
       return updatedState;
     }
-
     default:
       return state;
   }

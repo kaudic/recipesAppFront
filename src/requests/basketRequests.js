@@ -11,6 +11,17 @@ export async function requestFetchBasketList() {
     }
 }
 
+export async function requestFetchBasketIngredientsList() {
+    try {
+        // BASE_URL/api defined by default in apiAxios
+        const response = await apiAxios.get('/basket/ingredients');
+        return response;
+    }
+    catch (err) {
+        return err.message;
+    }
+}
+
 export async function requestFetchDeleteAllBasket() {
     try {
         // BASE_URL/api defined by default in apiAxios

@@ -3,6 +3,7 @@ export const SET_BASKET_LIST = 'SET_BASKET_LIST';
 export const FETCH_DELETEALL_BASKET = 'FETCH_DELETEALL_BASKET';
 export const FETCH_ADDONE_BASKET = 'FETCH_ADDONE_BASKET';
 export const FETCH_DELETEONE_BASKET = 'FETCH_DELETEONE_BASKET';
+export const FETCH_BASKET_INGREDIENTS_LIST = 'FETCH_BASKET_INGREDIENTS_LIST';
 
 /**
  * Get the list of recipes in basket + counts
@@ -10,6 +11,14 @@ export const FETCH_DELETEONE_BASKET = 'FETCH_DELETEONE_BASKET';
  */
 export function actionFetchBasketList() {
     return { type: FETCH_BASKET_LIST };
+}
+
+/**
+ * Get the list of ingredients necessary for the basket recipes
+ * @returns {Action}
+ */
+export function actionFetchBasketIngredientsList() {
+    return { type: FETCH_BASKET_INGREDIENTS_LIST };
 }
 
 /**
@@ -25,6 +34,7 @@ export function actionFetchDeleteAllBasket() {
  * @returns {Action}
  */
 export function actionSetBasketList(basketList) {
+    console.log('dispatching SET basket list');
     return { type: SET_BASKET_LIST, payload: basketList };
 }
 
