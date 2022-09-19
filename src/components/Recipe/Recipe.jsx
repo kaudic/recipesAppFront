@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Page from '../Page';
+import Page from '../Page/Page';
 import './recipe.scss';
 import CardIndicators from '../CardIndicators/CardIndicators';
 import Ingredient from '../Ingredient/Ingredient';

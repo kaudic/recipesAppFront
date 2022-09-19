@@ -8,6 +8,7 @@ export const SET_PUT_RECIPE = 'SET_PUT_RECIPE';
 export const FETCH_PUT_IMG = 'FETCH_PUT_IMG';
 export const SET_PUT_IMG = 'SET_PUT_IMG';
 export const FETCH_CREATE_RECIPE = 'FETCH_CREATE_RECIPE';
+export const SET_RANDOM_RECIPE = 'SET_RANDOM_RECIPE';
 
 
 /**
@@ -105,5 +106,14 @@ export function actionFetchPutImage(imgData) {
  */
 export function actionSetPutImg(imgData) {
   return { type: 'SET_PUT_IMG', payload: imgData }
+}
+
+/**
+ * Making the list of recipes in a random way
+ * @param {recipesOldState} recipes Old State
+ * @returns {Action}
+ */
+export function actionSetRandomRecipe() {
+  return { type: 'SET_RANDOM_RECIPE' }
 }
 

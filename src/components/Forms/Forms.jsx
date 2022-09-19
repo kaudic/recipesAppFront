@@ -240,4 +240,4 @@ const Forms = () => {
 
 Forms.propTypes = {};
 
-export default Forms;
+export default React.memo(Forms);

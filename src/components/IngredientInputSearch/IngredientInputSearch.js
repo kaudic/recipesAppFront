@@ -65,4 +65,4 @@ const IngredientInputSearch = ({ handleSearchOnChange }) => {
 
 IngredientInputSearch.propTypes = {}
 
-export default IngredientInputSearch;
+export default React.memo(IngredientInputSearch);

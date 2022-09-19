@@ -4,7 +4,6 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import './formsTabs.scss';
 
-
 const FormsTabs = ({ handleTabsChange, tabsValue }) => {
 
     return (
@@ -31,4 +30,4 @@ const FormsTabs = ({ handleTabsChange, tabsValue }) => {
 
 FormsTabs.propTypes = {}
 
-export default FormsTabs;
+export default React.memo(FormsTabs);

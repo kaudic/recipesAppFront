@@ -13,6 +13,9 @@ import { NavLink } from 'react-router-dom';
 import './menu.scss';
 import Badge from '@mui/material/Badge';
 import { useSelector } from 'react-redux';
+import Button from '@mui/material/Button';
+import { actionSetRandomRecipe } from '../../actions/recipes';
+import { useDispatch } from 'react-redux';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -58,10 +61,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const Menu = ({ handleSearchOnChange }) => {
 
+    const dispatch = useDispatch();
     const url = window.location.pathname;
-    console.log('trying to get state');
-
     const recipeCount = useSelector((state) => state?.basket?.list?.recipesCount[0]?.count || 0);
+    const handleShuffleClick = () => {
+        dispatch(actionSetRandomRecipe());
+    }
 
     return (
         <Box sx={{ flexGrow: 1, height: "150px" }}>
@@ -95,9 +100,10 @@ const Menu = ({ handleSearchOnChange }) => {
                             </Badge>
                         </NavLink>
 
+
                     </Typography>
                     {url === '/' &&
-                        <Search
+                        <><Search
                             onChange={handleSearchOnChange}>
                             <SearchIconWrapper>
                                 <SearchIcon />
@@ -106,8 +112,12 @@ const Menu = ({ handleSearchOnChange }) => {
                                 placeholder="Search…"
                                 inputProps={{ 'aria-label': 'search' }}
                             />
-                        </Search>}
+                        </Search>
 
+                            <Button variant="contained" color="secondary" className="menu-shuffle" onClick={handleShuffleClick}>
+                                Shuffle
+                            </Button>
+                        </>}
                 </Toolbar>
             </AppBar>
         </Box>

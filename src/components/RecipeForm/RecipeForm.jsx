@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Page from '../Page';
+import Page from '../Page/Page';
 import './recipeForm.scss';
 import { useDispatch } from 'react-redux';
 import RecipeFormModifyBtns from '../RecipeFormModifyBtns/RecipeFormModifyBtns';
@@ -20,6 +20,7 @@ import { actionFetchModifyRecipe, actionFetchPutImage, actionFetchCreateRecipe }
 import convertObjectToFormData from '../../Tools/convertObjectToFormData';
 import IngredientDialogBox from '../IngredientDialogBox/IngredientDialogBox';
 import buildAutocompleteOptions from '../../Tools/buildAutocompleteOptions';
+import parseMinutesInInterval from '../../Tools/parseMinutesInInterval';
 import Swal from 'sweetalert2';
 import IngredientList from '../IngredientList/IngredientList';
 
@@ -96,11 +97,15 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
                 // imgName: imgName is sent on different action with the submit of a new picture file
                 text,
                 mealQty,
-                cookingTime: `00:${cookingTime}:00`,
-                preparationTime: `00:${preparationTime}:00`,
+                cookingTime: parseMinutesInInterval(cookingTime),
+                preparationTime: parseMinutesInInterval(preparationTime),
                 typeId: recipe.type_id,
                 ingredients
             }
+        }
+        // checking ingredients
+        if (modifiedRecipe.recipe.ingredients === undefined) {
+            delete modifiedRecipe.recipe.ingredients
         }
         dispatch(actionFetchModifyRecipe(modifiedRecipe));
         setModify(false);
@@ -116,10 +121,14 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
             // imgName: imgName is sent on a PUT request with a formData
             text,
             mealQty,
-            cookingTime: `00:${cookingTime}:00`,
-            preparationTime: `00:${preparationTime}:00`,
+            cookingTime: parseMinutesInInterval(cookingTime),
+            preparationTime: parseMinutesInInterval(preparationTime),
             typeId: 1,
             ingredients
+        }
+        // checking ingredients
+        if (newRecipe.ingredients === undefined) {
+            delete newRecipe.ingredients
         }
         dispatch(actionFetchCreateRecipe(newRecipe, imgData));
 
@@ -231,12 +240,13 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
                     </Box>
                     <Box sx={boxStyle}>
                         <AccessTimeIcon color="secondary" sx={{ mr: 1, my: 0.5 }} />
-                        <TextField id="" name="preparationTime" label="Temps préparation" variant="standard" fullWidth {...spreadInputPreparationTime} />
+                        <TextField id="" name="preparationTime" label="Temps préparation (min)" variant="standard" fullWidth {...spreadInputPreparationTime} />
                     </Box>
                     <Box sx={boxStyle}>
                         <MicrowaveIcon color="success" sx={{ mr: 1, my: 0.5 }} />
-                        <TextField id="" name="cookingTime" label="Temps cuisson" variant="standard" fullWidth {...spreadInputCookingTime} />
+                        <TextField id="" name="cookingTime" label="Temps cuisson (min)" variant="standard" fullWidth {...spreadInputCookingTime} />
                     </Box>
+
                     <div className="recipeForm-upload">
                         <Button sx={{ marginTop: '2rem' }} variant="contained" component="label" endIcon={<UploadIcon />}>
                             Image

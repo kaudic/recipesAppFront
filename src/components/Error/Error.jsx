@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Error.scss';
-import Page from '../Page';
+import Page from '../Page/Page';
 import Menu from '../Menu/Menu';
 
 const Error = () => {

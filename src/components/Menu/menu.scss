@@ -1,8 +1,15 @@
-.menu-link {
-    color: white;
-    text-transform: uppercase;
-    margin: 2rem;
-    text-decoration: none;
-    overflow: visible;
-    z-index: 2000;
+.menu {
+
+    &-link {
+        color: white;
+        text-transform: uppercase;
+        margin: 2rem;
+        text-decoration: none;
+        overflow: visible;
+        z-index: 2000;
+    }
+
+    &-shuffle {
+        margin-left: 30px !important;
+    }
 }

@@ -51,4 +51,4 @@ const CarouselArrow = ({ direction }) => {
 
 CarouselArrow.propTypes = {};
 
-export default CarouselArrow;
+export default React.memo(CarouselArrow);

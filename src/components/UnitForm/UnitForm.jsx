@@ -52,4 +52,4 @@ const UnitForm = ({ unit, updateUnitChange, deleteUnit, unitFormClassName }) => 
 
 UnitForm.propTypes = {};
 
-export default UnitForm;
+export default React.memo(UnitForm);

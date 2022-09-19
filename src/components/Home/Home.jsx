@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import Cards from '../../components/Cards';
+import Cards from '../Cards/Cards';
 import Menu from '../Menu/Menu';
-import Page from '../Page';
+import Page from '../Page/Page';
 import { useSelector, useDispatch } from 'react-redux';
 import { actionSetSearchList } from '../../actions/recipes';
 
@@ -27,6 +27,7 @@ const Home = () => {
 
         // in case we have a search string then we update the searchList from the store
         const searchRecipes = recipes.filter((recipe) => {
+
             return (
                 recipe.title.toLowerCase().includes(searchString.toLowerCase()) ||
                 recipe.reference.toLowerCase().includes(searchString.toLowerCase()) ||
@@ -35,8 +36,10 @@ const Home = () => {
                     (() => {
                         let isRecipe = false;
                         recipe.ingredients.forEach((ingredient) => {
-                            if (ingredient.name.toLowerCase().includes(searchString.toLowerCase())) {
-                                isRecipe = true;
+                            if (ingredient.name) {
+                                if (ingredient.name.toLowerCase().includes(searchString.toLowerCase())) {
+                                    isRecipe = true;
+                                }
                             }
                         });
                         return isRecipe;

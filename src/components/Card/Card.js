@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import CardIndicators from '../CardIndicators/CardIndicators';
-import './style.scss';
+import './card.scss';
 import { useDispatch } from 'react-redux';
 import { actionFetchAddOneBasket } from '../../actions/basket';
 

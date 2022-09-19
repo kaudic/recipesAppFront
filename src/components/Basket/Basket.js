@@ -61,20 +61,20 @@ const Basket = () => {
     const columns = [
         { title: "Id", field: "id", hozAlign: "center", vertAlign: "middle", visible: false },
         { title: "Image", field: "img_name", formatter: imageFormatter, hozAlign: "center", vertAlign: "middle" },
-        { title: "Recette", field: "title", vertAlign: "middle", formatter: recipeTitleFormatter },
-        { title: "Référence", field: "reference", vertAlign: "middle" },
+        { title: "Recette", field: "title", vertAlign: "middle", width: 500, formatter: recipeTitleFormatter },
+        { title: "Référence", field: "reference", vertAlign: "middle", width: 500 },
         { title: "Tps Cuisson", field: "cooking_time.minutes", hozAlign: "center", vertAlign: "middle", formatter: figuresFormatter },
         { title: "Tps Préparation", field: "preparation_time.minutes", hozAlign: "center", vertAlign: "middle", formatter: figuresFormatter },
         { title: "Nb repas", field: "meal_qty", hozAlign: "center", vertAlign: "middle", formatter: figuresFormatter },
-        { formatter: "buttonCross", hozAlign: "center", vertAlign: "middle", cellClick: deleteFromBasket },
+        { title: 'Suppression', formatter: "buttonCross", hozAlign: "center", vertAlign: "middle", cellClick: deleteFromBasket },
     ];
 
     // Building the columns array for ingredients to serve to React Tabulator Component
     const ingredientsColumns = [
         { title: "Id", field: "id", hozAlign: "center", vertAlign: "middle", visible: false },
-        { title: "Ingrédient", field: "name", vertAlign: "middle", formatter: recipeTitleFormatter },
-        { title: "Quantité", field: "sum", hozAlign: "center", vertAlign: "middle", formatter: figuresFormatter },
-        { title: "Unité", field: "unit_name", vertAlign: "middle" },
+        { title: "Quantité", field: "sum", hozAlign: "center", vertAlign: "middle", width: 300 },
+        { title: "Unité", field: "unit_name", hozAlign: "center", vertAlign: "middle", width: 300 },
+        { title: "Ingrédient", field: "name", vertAlign: "middle", hozAlign: "center", width: 797 },
 
     ];
 
@@ -97,19 +97,16 @@ const Basket = () => {
                     <ReactTabulator
                         data={data}
                         columns={columns}
-                        layout={"fitData"}
-                        responsiveLayout={true}
-                        fitColumns={true}
+                        layout={"fitColumns"}
                     />
                 }
                 {recipesCount > 0 && showIngredients &&
-                    <ReactTabulator
-                        data={ingredients}
-                        columns={ingredientsColumns}
-                        layout={"fitData"}
-                        responsiveLayout={true}
-                        fitColumns={true}
-                    />
+                    <div className="basket-ingredients-table">
+                        <ReactTabulator
+                            data={ingredients}
+                            columns={ingredientsColumns}
+                        />
+                    </div>
                 }
             </div>
             {recipesCount == 0 &&
@@ -124,4 +121,4 @@ const Basket = () => {
 
 Basket.propTypes = {};
 
-export default Basket;
+export default React.memo(Basket);

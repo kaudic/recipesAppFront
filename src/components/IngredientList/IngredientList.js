@@ -55,4 +55,4 @@ IngredientList.defaultProps = {
   enableIngredientName: false
 }
 
-export default IngredientList;
+export default React.memo(IngredientList);

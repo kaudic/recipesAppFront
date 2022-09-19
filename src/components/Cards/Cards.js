@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Card from '../Card';
-
-import './style.scss';
+import Card from '../Card/Card';
+import './cards.scss';
 
 const Cards = ({ recipes }) => {
 

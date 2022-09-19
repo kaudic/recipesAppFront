@@ -63,4 +63,4 @@ const UnitDialogBox = ({
 
 UnitDialogBox.propTypes = {};
 
-export default UnitDialogBox;
+export default React.memo(UnitDialogBox);

@@ -46,4 +46,4 @@ UnitList.defaultProps = {
     unitFormClassName: '',
 }
 
-export default UnitList;
+export default React.memo(UnitList);

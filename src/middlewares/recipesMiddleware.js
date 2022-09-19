@@ -41,7 +41,6 @@ const recipesMiddleware = (store) => (next) => async (action) => {
       // if an imgData was sent then we complete it with the newly id got after recipe creation
       if (response.status === 200) {
         // message to confirm creation to the user
-        console.log('sending a message');
         Swal.fire({
           icon: 'success',
           title: 'Recette créée!',
@@ -55,6 +54,12 @@ const recipesMiddleware = (store) => (next) => async (action) => {
         }
         // we make another call to get all recipes after a slight timeout so that the update of image is fully finished
         setTimeout(() => store.dispatch(actionFetchRecipesList()), 500);
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Erreur lors de la création de la recette',
+        })
       }
       return;
     }
