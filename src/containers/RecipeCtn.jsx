@@ -8,6 +8,7 @@ import RecipeForm from '../components/RecipeForm/RecipeForm';
 import Menu from '../components/Menu/Menu';
 import { actionFetchDeleteRecipe, actionFetchRecipesList } from '../actions/recipes';
 import Swal from 'sweetalert2';
+import { actionFetchAddOneBasket } from '../actions/basket';
 
 const RecipeCtn = () => {
     const dispatch = useDispatch();
@@ -17,8 +18,28 @@ const RecipeCtn = () => {
     const { id: recipeId } = useParams();
     const recipe = useSelector((state) => findRecipeByPk(state.recipes.list, recipeId));
     const units = useSelector((state) => (state.units.list));
+    const basketList = useSelector((state) => (state.basket.list.recipes));
     const ingredientsList = useSelector((state) => (state.ingredients.list));
 
+    // State for disabling the addToCart Btn if necessary
+    const [recipeInCart, setRecipeInCart] = useState(false);
+
+    // if id change we check if recipe id is in the basket 
+    useEffect(() => {
+        if (basketList.findIndex((recipe) => parseInt(recipe.id) === parseInt(recipeId)) != -1) {
+            setRecipeInCart(true);
+        } else {
+            setRecipeInCart(false);
+
+        }
+    }, [recipeId, basketList])
+
+
+    // function to add a recipe to the cart
+    const handleAddToCartClick = () => {
+        dispatch(actionFetchAddOneBasket(recipeId));
+        setRecipeInCart(true);
+    }
 
     // Function to handle the click on delete button
     const handleDeleteClick = (event) => {
@@ -63,7 +84,7 @@ const RecipeCtn = () => {
             {
                 modify ?
                     <RecipeForm recipe={recipe} units={units} ingredientsList={ingredientsList} handleCancelClick={handleCancelClick} setModify={setModify} /> :
-                    <Recipe recipe={recipe} handleDeleteClick={handleDeleteClick} handleModifyClick={handleModifyClick} />
+                    <Recipe recipe={recipe} recipeInCart={recipeInCart} handleDeleteClick={handleDeleteClick} handleModifyClick={handleModifyClick} handleAddToCartClick={handleAddToCartClick} />
             }
         </>
     )

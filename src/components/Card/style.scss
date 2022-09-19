@@ -35,6 +35,7 @@
     color: rgba(0, 0, 0, .4);
     font-size: .8em;
     margin-bottom: vars.$halfGutter;
+    height: 40px;
   }
 
   &-link {
@@ -73,5 +74,16 @@
     &:hover {
       background-color: color.scale(green, $lightness: -30%);
     }
+
+    &-disabled {
+      color: grey;
+      background-color: darkgrey;
+
+      &:hover {
+        background-color: darkgrey;
+        cursor: not-allowed
+      }
+    }
+
   }
 }

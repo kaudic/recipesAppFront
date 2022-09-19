@@ -1,6 +1,7 @@
 import { FETCH_BASKET_LIST, SET_BASKET_LIST, FETCH_DELETEALL_BASKET, FETCH_ADDONE_BASKET, FETCH_DELETEONE_BASKET } from '../actions/basket';
 import { requestFetchDeleteOneBasket, requestFetchAddOneBasket, requestFetchDeleteAllBasket, requestFetchBasketList } from '../requests/basketRequests';
 import { actionSetBasketList, actionFetchBasketList } from '../actions/basket';
+import { actionFetchRecipesList } from '../actions/recipes';
 import Swal from 'sweetalert2';
 
 const basketMiddleware = (store) => (next) => async (action) => {
@@ -22,6 +23,10 @@ const basketMiddleware = (store) => (next) => async (action) => {
           // get a fresh list of the basket
           actionFetchBasketList()
         );
+        // get a fresh recipes list
+        store.dispatch(
+          actionFetchRecipesList()
+        );
       } else {
         Swal.fire({
           icon: 'error',
@@ -38,6 +43,10 @@ const basketMiddleware = (store) => (next) => async (action) => {
           // get a fresh list of the basket
           actionFetchBasketList()
         );
+        // get a fresh recipes list
+        store.dispatch(
+          actionFetchRecipesList()
+        );
       } else {
         Swal.fire({
           icon: 'error',
@@ -50,9 +59,13 @@ const basketMiddleware = (store) => (next) => async (action) => {
     case FETCH_DELETEONE_BASKET: {
       const response = await requestFetchDeleteOneBasket(action.payload);
       if (response.status === 204) {
+        // get a fresh list of the basket
         store.dispatch(
-          // get a fresh list of the basket
           actionFetchBasketList()
+        );
+        // get a fresh recipes list
+        store.dispatch(
+          actionFetchRecipesList()
         );
       } else {
         Swal.fire({

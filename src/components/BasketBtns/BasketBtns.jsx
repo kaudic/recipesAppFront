@@ -5,22 +5,25 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import IcecreamIcon from '@mui/icons-material/Icecream';
-import { requestFetchBasketIngredientsList } from '../../requests/basketRequests';
+import { useDispatch } from 'react-redux';
+import { actionFetchDeleteAllBasket } from '../../actions/basket';
 
 
-const BasketBtns = ({ }) => {
-    const getBasketIngredientsList = async () => {
-        const list = await requestFetchBasketIngredientsList();
-        console.log(list);
+const BasketBtns = ({ handleToggleIngredientsClick, showIngredients }) => {
+    const dispatch = useDispatch();
+
+    const handleDeleteBasketClick = async () => {
+        dispatch(actionFetchDeleteAllBasket());
+
     }
 
     return (
         <div className="recipeFormBtns">
             <ButtonGroup size="large" aria-label="large button group" className="Recipe-btnGroup">
-                <Button variant="contained" onClick={getBasketIngredientsList} endIcon={<FastfoodIcon />}>
-                    Voir les ingrédients
+                <Button color="secondary" variant="contained" onClick={handleToggleIngredientsClick} endIcon={<FastfoodIcon />}>
+                    {showIngredients ? 'Voir la liste des recettes' : 'Voir les ingrédients'}
                 </Button>
-                <Button variant="contained" endIcon={<IcecreamIcon />}>
+                <Button variant="contained" onClick={handleDeleteBasketClick} endIcon={<IcecreamIcon />}>
                     Vider le panier
                 </Button>
             </ButtonGroup>

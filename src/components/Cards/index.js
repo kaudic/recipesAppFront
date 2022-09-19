@@ -4,22 +4,25 @@ import Card from '../Card';
 
 import './style.scss';
 
-const Cards = ({ recipes }) => (
-  <section className="cards">
-    {recipes && (
-      <div className="cards-list">
-        {recipes.map((recipe) => {
-          return (
-            <Card
-              key={recipe.id}
-              {...recipe}
-            />
-          );
-        })}
-      </div>
-    )}
-  </section>
-);
+const Cards = ({ recipes }) => {
+
+  return (
+    <section className="cards">
+      {recipes && (
+        <div className="cards-list">
+          {recipes.map((recipe) => {
+            return (
+              <Card
+                key={recipe.id}
+                {...recipe}
+              />
+            );
+          })}
+        </div>
+      )}
+    </section>
+  )
+};
 
 Cards.propTypes = {
   recipes: PropTypes.arrayOf(
@@ -41,7 +44,7 @@ Cards.propTypes = {
         seconds: PropTypes.number,
       }).isRequired,
       type_id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired
+      name: PropTypes.string
     }),
   )
 };

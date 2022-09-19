@@ -10,6 +10,21 @@
     &-indicators {
         display: flex;
         justify-content: center;
+        margin: 30px auto;
+
+        &-box {
+            margin: 20px 30px;
+        }
+    }
+
+    &-empty {
+        color: orange;
+        text-align: center;
+        margin: 30px auto;
+
+        &-title {
+            font-size: 50px;
+        }
     }
 }
 

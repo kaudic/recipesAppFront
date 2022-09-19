@@ -8,11 +8,11 @@ import RecipeBtns from '../RecipeBtns/RecipeBtns';
 import { Link } from 'react-router-dom';
 import CarouselArrow from '../CarouselArrow/CarouselArrow';
 
-const Recipe = ({ recipe, handleDeleteClick, handleModifyClick }) => {
+const Recipe = ({ recipe, recipeInCart, handleDeleteClick, handleModifyClick, handleAddToCartClick }) => {
 
     return (
         <Page>
-            <RecipeBtns handleDeleteClick={handleDeleteClick} handleModifyClick={handleModifyClick} />
+            <RecipeBtns handleDeleteClick={handleDeleteClick} handleModifyClick={handleModifyClick} handleAddToCartClick={handleAddToCartClick} recipeInCart={recipeInCart} />
             <div className="recipe">
                 <div className="recipe-div-arrows">
                     <CarouselArrow direction={"left"} />

@@ -14,7 +14,7 @@ const Card = ({
   meal_qty,
   cooking_time,
   preparation_time,
-  name
+  basket
 }) => {
   const dispatch = useDispatch();
 
@@ -33,7 +33,7 @@ const Card = ({
         <CardIndicators qtyMeal={meal_qty} preparationTime={preparation_time.minutes} cookingTime={cooking_time.minutes} />
         <div className="card-btn-ctn">
           <Link to={`/recipe/${id}`} className="card-link">Voir la recette</Link>
-          <button onClick={handleAddToCartClick} className="card-btn">Ajouter au Panier</button>
+          <button disabled={basket} onClick={handleAddToCartClick} className={`card-btn ${basket ? 'card-btn-disabled' : ''}`} >Ajouter au Panier</button>
         </div>
       </div>
     </article>
@@ -51,8 +51,7 @@ Card.propTypes = {
   }).isRequired,
   preparation_time: PropTypes.shape({
     minutes: PropTypes.number.isRequired,
-  }).isRequired,
-  name: PropTypes.string.isRequired,
+  }).isRequired
 };
 
 export default React.memo(Card);
