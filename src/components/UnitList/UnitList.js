@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './unitList.scss';
-import IngredientForm from '../IngredientForm/IngredientForm';
 import Tooltip from '@mui/material/Tooltip';
 import { IconButton } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';

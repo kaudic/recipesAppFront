@@ -27,10 +27,18 @@ const Recipe = ({ recipe, recipeInCart, handleDeleteClick, handleModifyClick, ha
                     </h2>
                     <img src={`${process.env.REACT_APP_BASE_URL}/images/${recipe.img_name}`} alt={"recipe.img_name"}></img>
 
-                    <CardIndicators className="recipe-indicators" qtyMeal={recipe.meal_qty} preparationTime={recipe.preparation_time.minutes} cookingTime={recipe.cooking_time.minutes} />
+                    <CardIndicators
+                        className="recipe-indicators"
+                        qtyMeal={recipe.meal_qty}
+                        preparationTime={recipe.preparation_time}
+                        cookingTime={recipe.cooking_time} />
+
                 </div>
                 <div className="recipe-div">
                     <h1 className="recipe-title">Recette</h1>
+                    <span className={`recipe-type 
+        ${recipe.type_name === 'VIANDE' ? 'recipe-type-viande' :
+                            recipe.type_name === 'POISSON' ? 'recipe-type-poisson' : 'recipe-type-vegan'}`}>{recipe.type_name}</span>
                     {recipe.text}
                 </div>
                 <div className="recipe-div">

@@ -31,8 +31,10 @@ const Card = ({
       <div className="card-content">
         <h2 className="card-title">{title}</h2>
         <p className="card-desc">Référence : {reference}</p>
-        <span className="card-type">{type_name}</span>
-        <CardIndicators qtyMeal={meal_qty} preparationTime={preparation_time.minutes} cookingTime={cooking_time.minutes} />
+        <span className={`card-type 
+        ${type_name === 'VIANDE' ? 'card-type-viande' :
+            type_name === 'POISSON' ? 'card-type-poisson' : 'card-type-vegan'}`}>{type_name}</span>
+        <CardIndicators qtyMeal={meal_qty} preparationTime={preparation_time} cookingTime={cooking_time} />
         <div className="card-btn-ctn">
           <Link to={`/recipe/${id}`} className="card-link">Voir la recette</Link>
           <button disabled={basket} onClick={handleAddToCartClick} className={`card-btn ${basket ? 'card-btn-disabled' : ''}`} >Ajouter au Panier</button>

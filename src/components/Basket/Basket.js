@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import './basket.scss';
 import Menu from '../Menu/Menu';
 import { useSelector, useDispatch } from 'react-redux';
@@ -118,7 +117,5 @@ const Basket = () => {
         </div>
     )
 }
-
-Basket.propTypes = {};
 
 export default React.memo(Basket);

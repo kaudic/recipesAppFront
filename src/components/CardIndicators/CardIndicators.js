@@ -17,14 +17,13 @@ const CardIndicators = (props) => {
             </IconButton>
             <IconButton aria-label="Prépa" color='secondary'>
                 <AccessTimeIcon />
-                {preparationTime} mn
+                {preparationTime.hours ? preparationTime.hours + 'h' : ''}{preparationTime.minutes} mn
             </IconButton>
             <IconButton aria-label="Cuisson" color='success'>
                 <MicrowaveIcon />
-                {cookingTime} mn
+                {cookingTime.hours ? cookingTime.hours + 'h' : ''}{cookingTime.minutes} mn
             </IconButton>
         </div>
-
     )
 }
 

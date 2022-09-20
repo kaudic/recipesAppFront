@@ -62,13 +62,23 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-const Menu = ({ handleSearchOnChange }) => {
+const checkBoxStyle = {
+    color: 'black', '&.Mui-checked': {
+        color: 'black',
+    },
+};
+
+const Menu = ({ handleSearchOnChange, updateTypeFilter }) => {
 
     const dispatch = useDispatch();
     const url = window.location.pathname;
     const recipeCount = useSelector((state) => state?.basket?.list?.recipesCount[0]?.count || 0);
     const handleShuffleClick = () => {
         dispatch(actionSetRandomRecipe());
+    }
+
+    const handleCheckboxClick = (event) => {
+        updateTypeFilter(event.target.value);
     }
 
     return (
@@ -116,11 +126,10 @@ const Menu = ({ handleSearchOnChange }) => {
                                 inputProps={{ 'aria-label': 'search' }}
                             />
                         </Search>
-                            <div>
-                                <FormControlLabel control={<Checkbox defaultChecked />} label="Viande" />
-                                <FormControlLabel control={<Checkbox defaultChecked />} label="Poisson" />
-                                <FormControlLabel control={<Checkbox defaultChecked />} label="Vegan" />
-
+                            <div className="menu-checkbox">
+                                <FormControlLabel control={<Checkbox value={1} defaultChecked sx={checkBoxStyle} onChange={handleCheckboxClick} />} label="Poisson" />
+                                <FormControlLabel control={<Checkbox value={2} defaultChecked sx={checkBoxStyle} onChange={handleCheckboxClick} />} label="Viande" />
+                                <FormControlLabel control={<Checkbox value={3} defaultChecked sx={checkBoxStyle} onChange={handleCheckboxClick} />} label="Vegan" />
                             </div>
 
                             <Button variant="contained" color="secondary" className="menu-shuffle" onClick={handleShuffleClick}>

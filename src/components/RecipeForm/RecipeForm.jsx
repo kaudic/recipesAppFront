@@ -4,7 +4,7 @@ import Page from '../Page/Page';
 import './recipeForm.scss';
 import { useDispatch } from 'react-redux';
 import RecipeFormModifyBtns from '../RecipeFormModifyBtns/RecipeFormModifyBtns';
-import RecipeFormCreationBtns from '../RecipeFormCreationBtns/RecipeFormModifyBtns';
+import RecipeFormCreationBtns from '../RecipeFormCreationBtns/RecipeFormCreationBtns';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import TitleIcon from '@mui/icons-material/Title';

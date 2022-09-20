@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './unitDialogBox.scss';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import Tooltip from '@mui/material/Tooltip';
-import { IconButton } from '@mui/material';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -11,17 +8,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import buildAutocompleteOptions from '../../Tools/buildAutocompleteOptions';
 
 const UnitDialogBox = ({
-    handleOnChangeName,
     title,
     subtitle,
     unitDialBoxOpen,
     handleUnitDialBoxClickClose,
     handleUnitDialBoxClickValidate,
-    units,
-    unitsList,
     handleChangeUnitName,
     handleChangeUnitShortName
 }) => {

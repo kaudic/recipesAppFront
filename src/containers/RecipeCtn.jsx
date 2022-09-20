@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, Navigate } from 'react-router-dom';
 import { findRecipeByPk } from '../selectors/recipes';
@@ -84,14 +83,13 @@ const RecipeCtn = () => {
 
             {
                 modify ?
-                    <RecipeForm recipe={recipe} units={units} types={types} ingredientsList={ingredientsList} handleCancelClick={handleCancelClick} setModify={setModify} /> :
+                    <RecipeForm recipe={recipe} units={units} types={types} ingredientsList={ingredientsList} handleCancelClick={handleCancelClick} setModify={setModify} />
+                    :
                     <Recipe recipe={recipe} recipeInCart={recipeInCart} handleDeleteClick={handleDeleteClick} handleModifyClick={handleModifyClick} handleAddToCartClick={handleAddToCartClick} />
             }
         </>
     )
 
 }
-
-RecipeCtn.propTypes = {}
 
 export default React.memo(RecipeCtn);

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Routes, Route } from 'react-router-dom';
 import Home from '../Home/Home';
 import Error from '../Error/Error';
@@ -20,7 +19,5 @@ const App = () => {
     </Routes>
   )
 }
-
-App.propTypes = {}
 
 export default React.memo(App);

@@ -18,12 +18,23 @@
     position: absolute;
     bottom: 105px;
     right: 0;
-    background-color: #9c27b0;
     letter-spacing: 0.02857em;
     color: white;
     font-size: small;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    padding: 5px
+    padding: 5px;
+
+    &-poisson {
+      background-color: #9c27b0;
+    }
+
+    &-viande {
+      background-color: orange;
+    }
+
+    &-vegan {
+      background-color: black;
+    }
   }
 
   &-content {
