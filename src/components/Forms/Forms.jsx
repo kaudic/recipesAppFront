@@ -19,6 +19,7 @@ const Forms = () => {
 
     // Get datas from the redux store
     const units = useSelector((state) => state.units.list);
+    const types = useSelector((state) => (state.types.list));
     const ingredients = useSelector((state) => state.ingredients.list);
 
     // State for the value - it represents the selected entry of the side menu
@@ -174,7 +175,7 @@ const Forms = () => {
             <Menu />
             <div className="forms">
                 <FormsTabs handleTabsChange={handleTabsChange} tabsValue={tabsValue} />
-                {tabsValue === 0 && <RecipeForm units={units} ingredientsList={ingredients} creationMode={true} />}
+                {tabsValue === 0 && <RecipeForm units={units} types={types} ingredientsList={ingredients} creationMode={true} />}
                 {tabsValue === 1 &&
                     <div className="forms-ingredient">
                         <TextField onChange={handleIngredientsSearchOnChange} placeholder="Rechercher un ingrédient" />
@@ -234,7 +235,6 @@ const Forms = () => {
                     </div>}
             </div>
         </>
-
     )
 }
 

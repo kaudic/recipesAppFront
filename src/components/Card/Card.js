@@ -10,6 +10,7 @@ const Card = ({
   id,
   title,
   reference,
+  type_name,
   img_name,
   meal_qty,
   cooking_time,
@@ -30,6 +31,7 @@ const Card = ({
       <div className="card-content">
         <h2 className="card-title">{title}</h2>
         <p className="card-desc">Référence : {reference}</p>
+        <span className="card-type">{type_name}</span>
         <CardIndicators qtyMeal={meal_qty} preparationTime={preparation_time.minutes} cookingTime={cooking_time.minutes} />
         <div className="card-btn-ctn">
           <Link to={`/recipe/${id}`} className="card-link">Voir la recette</Link>

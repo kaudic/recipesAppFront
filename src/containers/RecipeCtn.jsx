@@ -14,10 +14,11 @@ const RecipeCtn = () => {
     const dispatch = useDispatch();
     const [modify, setModify] = useState(false);
 
-    // Getting the recipe and units information to display
+    // Getting the recipe, units and types information to display
     const { id: recipeId } = useParams();
     const recipe = useSelector((state) => findRecipeByPk(state.recipes.list, recipeId));
     const units = useSelector((state) => (state.units.list));
+    const types = useSelector((state) => (state.types.list));
     const basketList = useSelector((state) => (state.basket.list.recipes));
     const ingredientsList = useSelector((state) => (state.ingredients.list));
 
@@ -83,7 +84,7 @@ const RecipeCtn = () => {
 
             {
                 modify ?
-                    <RecipeForm recipe={recipe} units={units} ingredientsList={ingredientsList} handleCancelClick={handleCancelClick} setModify={setModify} /> :
+                    <RecipeForm recipe={recipe} units={units} types={types} ingredientsList={ingredientsList} handleCancelClick={handleCancelClick} setModify={setModify} /> :
                     <Recipe recipe={recipe} recipeInCart={recipeInCart} handleDeleteClick={handleDeleteClick} handleModifyClick={handleModifyClick} handleAddToCartClick={handleAddToCartClick} />
             }
         </>

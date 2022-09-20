@@ -14,7 +14,6 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import MicrowaveIcon from '@mui/icons-material/Microwave';
 import UploadIcon from '@mui/icons-material/Upload';
 import Button from '@mui/material/Button';
-import SendIcon from '@mui/icons-material/Send';
 import useControlledInput from '../../hooks/useControlledInput';
 import { actionFetchModifyRecipe, actionFetchPutImage, actionFetchCreateRecipe } from '../../actions/recipes';
 import convertObjectToFormData from '../../Tools/convertObjectToFormData';
@@ -23,21 +22,25 @@ import buildAutocompleteOptions from '../../Tools/buildAutocompleteOptions';
 import parseMinutesInInterval from '../../Tools/parseMinutesInInterval';
 import Swal from 'sweetalert2';
 import IngredientList from '../IngredientList/IngredientList';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import SetMealIcon from '@mui/icons-material/SetMeal';
 
-const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelClick, handleModifyClick, creationMode }) => {
+const RecipeForm = ({ recipe, units, types, ingredientsList, setModify, handleCancelClick, handleModifyClick, creationMode }) => {
 
     // factorisation of Box Style
     const boxStyle = {
         display: 'flex', alignItems: 'flex-end', marginTop: '20px', width: '60%'
     };
 
-    // use of a custom hook to handle inputs
+    // States for the form - use of a custom hook to handle inputs
     const [spreadInputTitle, title, setTitle] = useControlledInput(recipe.title);
     const [spreadInputReference, reference, setReference] = useControlledInput(recipe.reference);
     const [spreadInputMealQty, mealQty, setMealQty] = useControlledInput(recipe.meal_qty);
     const [spreadInputPreparationTime, preparationTime, setPreparationTime] = useControlledInput(recipe.preparation_time.minutes);
     const [spreadInputCookingTime, cookingTime, setCookingTime] = useControlledInput(recipe.cooking_time.minutes);
     const [spreadInputText, text, setText] = useControlledInput(recipe.text);
+    const [typeId, setTypeId] = useState(recipe.type_id);
 
     // state for image
     const [imgData, setImgData] = useState('');
@@ -52,6 +55,11 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
 
     const [qtyValue, setQtyValue] = useState(null);
     const [unitValue, setUnitValue] = useState(null);
+
+    // function to handle the change of recipe type
+    const handleSelectTypeChange = (event) => {
+        setTypeId(event.target.value);
+    }
 
     // function for dialog box to handle change of unit 
     const handleChangeOfUnit = (event, value) => {
@@ -88,6 +96,15 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
     const handleSubmitClick = (event) => {
         event.preventDefault();
 
+        // checking ingredients
+        if (ingredients.length === 0) {
+            return Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Il doit obligatoirement y avoir au minimum 1 ingrédient',
+            })
+        }
+
         // building an object respecting API schema
         const modifiedRecipe = {
             id: recipe.id,
@@ -99,20 +116,30 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
                 mealQty,
                 cookingTime: parseMinutesInInterval(cookingTime),
                 preparationTime: parseMinutesInInterval(preparationTime),
-                typeId: recipe.type_id,
+                typeId,
                 ingredients
             }
         }
-        // checking ingredients
-        if (modifiedRecipe.recipe.ingredients === undefined) {
-            delete modifiedRecipe.recipe.ingredients
-        }
         dispatch(actionFetchModifyRecipe(modifiedRecipe));
+
+        // check if an image is enclosed and therefore send a 2nd query
+        if (imgData) {
+            dispatch(actionFetchPutImage(imgData))
+        }
         setModify(false);
     }
     // function to make an API call to create a new recipe
     const handleCreationClick = (event) => {
         event.preventDefault();
+
+        // checking ingredients
+        if (ingredients.length === 0) {
+            return Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Il doit obligatoirement y avoir au minimum 1 ingrédient',
+            })
+        }
 
         // building an object respecting API schema
         const newRecipe = {
@@ -123,12 +150,8 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
             mealQty,
             cookingTime: parseMinutesInInterval(cookingTime),
             preparationTime: parseMinutesInInterval(preparationTime),
-            typeId: 1,
+            typeId,
             ingredients
-        }
-        // checking ingredients
-        if (newRecipe.ingredients === undefined) {
-            delete newRecipe.ingredients
         }
         dispatch(actionFetchCreateRecipe(newRecipe, imgData));
 
@@ -175,12 +198,16 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
     };
     // function to delete an ingredient
     const deleteIngredient = (ingredientId) => {
+        // console.log('ingredientId: ' + ingredientId);
         const oldIngredients = [...ingredients];
+        // console.log('oldIngredients: ' + JSON.stringify(oldIngredients));
         const ingredientIndex = oldIngredients.findIndex((ingredient) => parseInt(ingredient.id) === parseInt(ingredientId));
-        oldIngredients.splice(ingredientIndex, 1);
-        console.log(...oldIngredients);
-        console.log('modifying the state of ingredients in RecipeForm');
-        setIngredients(oldIngredients);
+        const deletedIngredients = oldIngredients.splice(ingredientIndex, 1);
+        // console.log('deletedIngredients: ' + JSON.stringify(deletedIngredients));
+        const newIngredients = [...oldIngredients];
+        // console.log('modifying the state of ingredients in RecipeForm');
+        // console.log('newIngredients: ' + JSON.stringify(newIngredients));
+        setIngredients(newIngredients);
     }
     // function to display a dialogBox to add Ingredient to the Recipe
     const handleIngredientDialBoxClickOpen = () => {
@@ -246,6 +273,18 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
                         <MicrowaveIcon color="success" sx={{ mr: 1, my: 0.5 }} />
                         <TextField id="" name="cookingTime" label="Temps cuisson (min)" variant="standard" fullWidth {...spreadInputCookingTime} />
                     </Box>
+                    <Box sx={boxStyle}>
+                        <SetMealIcon color="success" sx={{ mr: 1, my: 0.5 }} />
+                        <Select
+                            sx={{ marginTop: '10px', width: '100%' }}
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={typeId}
+                            onChange={handleSelectTypeChange}
+                        >{types.map((type) => <MenuItem key={type.id} value={parseInt(type.id)}>{type.name}</MenuItem>)}
+                        </Select>
+                    </Box>
+
 
                     <div className="recipeForm-upload">
                         <Button sx={{ marginTop: '2rem' }} variant="contained" component="label" endIcon={<UploadIcon />}>
@@ -256,10 +295,7 @@ const RecipeForm = ({ recipe, units, ingredientsList, setModify, handleCancelCli
                         {imgData !== '' &&
                             <div className="recipeForm-upload-image">{imgData.imgName}</div>
                         }
-                        {imgData !== '' && !creationMode &&
-                            <Button onClick={handleUploadImg} sx={{ backgroundColor: 'green', marginLeft: '10px', marginTop: '2rem' }} variant="contained" endIcon={<SendIcon />}>
-                                Envoyer
-                            </Button>}
+
                     </div>
                 </div>
                 <div className="recipeForm-div">
@@ -318,8 +354,8 @@ RecipeForm.defaultProps = {
         },
         ingredients: []
     },
-    creationMode: false
-
+    creationMode: false,
+    units: [{ id: 0, name: 'toto' }]
 }
 
 export default React.memo(RecipeForm);

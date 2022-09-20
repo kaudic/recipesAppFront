@@ -8,9 +8,22 @@
   width: 400px;
   margin: vars.$gutter 5px 0 5px;
   overflow: hidden;
+  position: relative;
 
   @media (max-width: vars.$small) {
     width: 100%;
+  }
+
+  &-type {
+    position: absolute;
+    bottom: 105px;
+    right: 0;
+    background-color: #9c27b0;
+    letter-spacing: 0.02857em;
+    color: white;
+    font-size: small;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    padding: 5px
   }
 
   &-content {

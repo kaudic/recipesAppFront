@@ -16,6 +16,9 @@ import { useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
 import { actionSetRandomRecipe } from '../../actions/recipes';
 import { useDispatch } from 'react-redux';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import FormGroup from '@mui/material/FormGroup';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -113,6 +116,12 @@ const Menu = ({ handleSearchOnChange }) => {
                                 inputProps={{ 'aria-label': 'search' }}
                             />
                         </Search>
+                            <div>
+                                <FormControlLabel control={<Checkbox defaultChecked />} label="Viande" />
+                                <FormControlLabel control={<Checkbox defaultChecked />} label="Poisson" />
+                                <FormControlLabel control={<Checkbox defaultChecked />} label="Vegan" />
+
+                            </div>
 
                             <Button variant="contained" color="secondary" className="menu-shuffle" onClick={handleShuffleClick}>
                                 Shuffle
