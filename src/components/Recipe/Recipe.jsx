@@ -10,6 +10,8 @@ import CarouselArrowCtn from '../../containers/CarouselArrowCtn';
 
 const Recipe = ({ recipe, recipeInCart, handleDeleteClick, handleModifyClick, handleAddToCartClick }) => {
 
+    const baseUrl = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_BASE_URL_PROD : process.env.REACT_APP_BASE_URL_DEV;
+
     return (
         <Page>
             <RecipeBtns handleDeleteClick={handleDeleteClick} handleModifyClick={handleModifyClick} handleAddToCartClick={handleAddToCartClick} recipeInCart={recipeInCart} />
@@ -25,7 +27,7 @@ const Recipe = ({ recipe, recipeInCart, handleDeleteClick, handleModifyClick, ha
                             <p>{recipe.reference}</p>
                         }
                     </h2>
-                    <img src={`${process.env.REACT_APP_BASE_URL}/images/${recipe.img_name}`} alt={"recipe.img_name"}></img>
+                    <img src={`${baseUrl}/images/${recipe.img_name}`} alt={"recipe.img_name"}></img>
 
                     <CardIndicators
                         className="recipe-indicators"

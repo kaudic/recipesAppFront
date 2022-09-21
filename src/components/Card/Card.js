@@ -18,11 +18,12 @@ const Card = ({
   handleAddToCartClick
 }) => {
 
+  const baseUrl = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_BASE_URL_PROD : process.env.REACT_APP_BASE_URL_DEV;
 
   return (
     <article className="card">
       <div className="card-img-container">
-        <img className="card-img" src={`${process.env.REACT_APP_BASE_URL}/images/` + img_name} alt={img_name} />
+        <img className="card-img" src={`${baseUrl}/images/` + img_name} alt={img_name} />
       </div>
       <div className="card-content">
         <h2 className="card-title">{title}</h2>

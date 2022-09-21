@@ -43,7 +43,8 @@ const Basket = ({
     }
     // Function to format image
     const imageFormatter = (cell) => {
-        return `<img class="basket-img" src=${process.env.REACT_APP_BASE_URL}/images/${cell.getValue()}>`;
+        const baseUrl = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_BASE_URL_PROD : process.env.REACT_APP_BASE_URL_DEV;
+        return `<img class="basket-img" src=${baseUrl}/images/${cell.getValue()}>`;
     }
     // Function to delete a recipe from the basket
     const deleteFromBasket = (e, cell) => {
