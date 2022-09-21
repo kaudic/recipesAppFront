@@ -14,7 +14,6 @@ const AppCtn = () => {
     // eslint asked me to remove async before the callback and add dispatch as a dependency;
     dispatch(actionSetBasketList());
     useEffect(() => {
-        console.log('launching useEffect requests');
         dispatch(actionFetchRecipesList());
         dispatch(actionFetchUnitsList());
         dispatch(actionFetchTypesList());

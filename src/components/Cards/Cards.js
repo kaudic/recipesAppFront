@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Card from '../Card/Card';
+import CardCtn from '../../containers/CardCtn';
 import './cards.scss';
 
 const Cards = ({ recipes }) => {
@@ -11,7 +11,7 @@ const Cards = ({ recipes }) => {
         <div className="cards-list">
           {recipes.map((recipe) => {
             return (
-              <Card
+              <CardCtn
                 key={recipe.id}
                 {...recipe}
               />
@@ -49,7 +49,7 @@ Cards.propTypes = {
 };
 
 Cards.defaultProps = {
-  recipes: null,
+  recipes: [],
 };
 
 export default React.memo(Cards);

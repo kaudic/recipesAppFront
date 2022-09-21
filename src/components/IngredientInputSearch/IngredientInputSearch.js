@@ -47,8 +47,6 @@ const IngredientInputSearch = ({ handleSearchOnChange }) => {
         },
     }));
 
-    console.log('rendering again input search');
-
     return (
         <Search
             onChange={handleSearchOnChange}>

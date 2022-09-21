@@ -198,15 +198,10 @@ const RecipeForm = ({ recipe, units, types, ingredientsList, setModify, handleCa
     };
     // function to delete an ingredient
     const deleteIngredient = (ingredientId) => {
-        // console.log('ingredientId: ' + ingredientId);
         const oldIngredients = [...ingredients];
-        // console.log('oldIngredients: ' + JSON.stringify(oldIngredients));
         const ingredientIndex = oldIngredients.findIndex((ingredient) => parseInt(ingredient.id) === parseInt(ingredientId));
         const deletedIngredients = oldIngredients.splice(ingredientIndex, 1);
-        // console.log('deletedIngredients: ' + JSON.stringify(deletedIngredients));
         const newIngredients = [...oldIngredients];
-        // console.log('modifying the state of ingredients in RecipeForm');
-        // console.log('newIngredients: ' + JSON.stringify(newIngredients));
         setIngredients(newIngredients);
     }
     // function to display a dialogBox to add Ingredient to the Recipe

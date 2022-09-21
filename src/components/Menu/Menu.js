@@ -12,13 +12,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import { NavLink } from 'react-router-dom';
 import './menu.scss';
 import Badge from '@mui/material/Badge';
-import { useSelector } from 'react-redux';
 import Button from '@mui/material/Button';
-import { actionSetRandomRecipe } from '../../actions/recipes';
-import { useDispatch } from 'react-redux';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import FormGroup from '@mui/material/FormGroup';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -68,14 +64,14 @@ const checkBoxStyle = {
     },
 };
 
-const Menu = ({ handleSearchOnChange, updateTypeFilter }) => {
+const Menu = ({
+    handleSearchOnChange,
+    updateTypeFilter,
+    recipeCount,
+    handleShuffleClick
+}) => {
 
-    const dispatch = useDispatch();
     const url = window.location.pathname;
-    const recipeCount = useSelector((state) => state?.basket?.list?.recipesCount[0]?.count || 0);
-    const handleShuffleClick = () => {
-        dispatch(actionSetRandomRecipe());
-    }
 
     const handleCheckboxClick = (event) => {
         updateTypeFilter(event.target.value);
@@ -142,6 +138,15 @@ const Menu = ({ handleSearchOnChange, updateTypeFilter }) => {
     );
 }
 
-Menu.propTypes = {}
+Menu.propTypes = {
+    handleSearchOnChange: PropTypes.func,
+    updateTypeFilter: PropTypes.func,
+    recipeCount: PropTypes.number,
+    handleShuffleClick: PropTypes.func
+}
+
+Menu.defaultProps = {
+    recipeCount: 0
+}
 
 export default React.memo(Menu);

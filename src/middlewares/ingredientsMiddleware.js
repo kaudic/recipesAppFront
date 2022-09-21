@@ -3,7 +3,6 @@ import { requestFetchIngredientsList, requestFetchDeleteIngredient, requestFetch
 import Swal from 'sweetalert2';
 
 const ingredientsMiddleware = (store) => (next) => async (action) => {
-  // console.log('action received: ' + action.type);
   switch (action.type) {
     case FETCH_INGREDIENTS_LIST: {
       const response = await requestFetchIngredientsList();
@@ -55,7 +54,6 @@ const ingredientsMiddleware = (store) => (next) => async (action) => {
       return;
     }
     case FETCH_CREATE_INGREDIENT: {
-      console.log('launching requestFetchCreate');
       const response = await requestFetchCreateIngredient(action.payload);
       if (response.status === 200) {
         Swal.fire({

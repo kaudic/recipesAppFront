@@ -6,17 +6,13 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { IconButton } from '@mui/material';
 import './carouselArrow.scss';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import getNextId from '../../Tools/getNextId';
 
-const CarouselArrow = ({ direction }) => {
+const CarouselArrow = ({ direction, recipes }) => {
     let navigate = useNavigate();
 
     // Get recipe id from url params
     const { id: recipeId } = useParams();
-
-    // Get all recipes to find next or previous recipe
-    const recipes = useSelector((state) => state.recipes.searchList);
 
     // Get next id and previous Id using tools function
     const { nextId, previousId } = getNextId(recipes, recipeId);
@@ -49,6 +45,26 @@ const CarouselArrow = ({ direction }) => {
     )
 };
 
-CarouselArrow.propTypes = {};
+CarouselArrow.propTypes = {
+    direction: PropTypes.string.isRequired,
+    recipes: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        reference: PropTypes.string.isRequired,
+        img_name: PropTypes.string.isRequired,
+        text: PropTypes.string.isRequired,
+        meal_qty: PropTypes.number.isRequired,
+        cooking_time: PropTypes.shape({
+            hours: PropTypes.number,
+            minutes: PropTypes.number.isRequired
+        }).isRequired,
+        preparation_time: PropTypes.shape({
+            hours: PropTypes.number,
+            minutes: PropTypes.number.isRequired
+        }).isRequired,
+        type_id: PropTypes.number.isRequired,
+        basket: PropTypes.bool.isRequired
+    })).isRequired,
+};
 
 export default React.memo(CarouselArrow);

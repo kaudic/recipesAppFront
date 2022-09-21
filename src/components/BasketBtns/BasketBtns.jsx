@@ -5,17 +5,8 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import IcecreamIcon from '@mui/icons-material/Icecream';
-import { useDispatch } from 'react-redux';
-import { actionFetchDeleteAllBasket } from '../../actions/basket';
 
-
-const BasketBtns = ({ handleToggleIngredientsClick, showIngredients }) => {
-    const dispatch = useDispatch();
-
-    const handleDeleteBasketClick = async () => {
-        dispatch(actionFetchDeleteAllBasket());
-
-    }
+const BasketBtns = ({ handleToggleIngredientsClick, showIngredients, handleDeleteBasketClick }) => {
 
     return (
         <div className="recipeFormBtns">
@@ -31,6 +22,14 @@ const BasketBtns = ({ handleToggleIngredientsClick, showIngredients }) => {
     )
 }
 
-BasketBtns.propTypes = {};
+BasketBtns.propTypes = {
+    handleToggleIngredientsClick: PropTypes.func.isRequired,
+    showIngredients: PropTypes.bool.isRequired,
+    handleDeleteBasketClick: PropTypes.func,
+};
+
+BasketBtns.defaultProps = {
+    showIngredients: false
+}
 
 export default React.memo(BasketBtns);

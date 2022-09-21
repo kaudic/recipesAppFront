@@ -19,7 +19,7 @@ const FormsTabs = ({ handleTabsChange, tabsValue }) => {
                 textColor='primary'
                 indicatorColor=''
             >
-                <Tab onClick={() => console.log('coucou')} label="Recette" />
+                <Tab label="Recette" />
                 <Tab label="Ingrédient" />
                 <Tab label="Unité" />
             </Tabs>

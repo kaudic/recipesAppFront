@@ -6,8 +6,13 @@ import IconButton from '@mui/material/IconButton';
 import PropTypes from 'prop-types';
 import './cardIndicators.scss';
 
-const CardIndicators = (props) => {
-    const { qtyMeal, preparationTime, cookingTime, className } = props;
+const CardIndicators = ({
+    qtyMeal,
+    preparationTime,
+    cookingTime,
+    className
+}) => {
+
 
     return (
         <div className={`cardIndicator ${className}`}>
@@ -27,6 +32,17 @@ const CardIndicators = (props) => {
     )
 }
 
-CardIndicators.propTypes = {};
+CardIndicators.propTypes = {
+    qtyMeal: PropTypes.number.isRequired,
+    preparationTime: PropTypes.shape({
+        hours: PropTypes.number,
+        minutes: PropTypes.number
+    }).isRequired,
+    cookingTime: PropTypes.shape({
+        hours: PropTypes.number,
+        minutes: PropTypes.number
+    }).isRequired,
+    className: PropTypes.string
+};
 
 export default React.memo(CardIndicators);

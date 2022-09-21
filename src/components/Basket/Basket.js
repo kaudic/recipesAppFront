@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import './basket.scss';
 import Menu from '../Menu/Menu';
-import { useSelector, useDispatch } from 'react-redux';
 import 'react-tabulator/lib/styles.css';
 import { ReactTabulator } from 'react-tabulator';
-import { actionFetchDeleteOneBasket } from '../../actions/basket';
 import TextField from '@mui/material/TextField';
 import BasketBtns from '../BasketBtns/BasketBtns';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import { requestFetchBasketIngredientsList } from '../../requests/basketRequests';
+import PropTypes from 'prop-types';
 
-
-const Basket = () => {
-    const dispatch = useDispatch();
-
-    const recipesCount = useSelector((state) => state?.basket?.list?.recipesCount[0]?.count || 0);
-    const mealsCount = useSelector((state) => state?.basket?.list?.mealsCount[0]?.sum || 0);
+const Basket = ({
+    recipesCount,
+    mealsCount,
+    recipes,
+    handleDispatchDeleteOneBasket,
+    handleDeleteBasketClick
+}) => {
 
     // State for switching between recipes tabulator and ingredients tabulator
     const [showIngredients, setShowIngredients] = useState(false);
@@ -25,7 +25,6 @@ const Basket = () => {
     const handleToggleIngredientsClick = async () => {
         // Get the list of ingredients
         const list = await requestFetchBasketIngredientsList();
-        console.log(JSON.stringify(list.data));
 
         // Update the state to show the table of ingredients
         setShowIngredients((oldState) => !oldState);
@@ -33,10 +32,6 @@ const Basket = () => {
         // UPdate the state containing the list of ingredients
         setIngredients(list.data);
     }
-
-    // Get all recipes in the basket
-    const recipes = useSelector((state) => state.basket.list);
-    const data = recipes.recipes;
 
     // Function to format Recipe title
     const recipeTitleFormatter = (cell) => {
@@ -53,11 +48,11 @@ const Basket = () => {
     // Function to delete a recipe from the basket
     const deleteFromBasket = (e, cell) => {
         const recipeId = cell.getData().id;
-        dispatch(actionFetchDeleteOneBasket(recipeId));
+        handleDispatchDeleteOneBasket(recipeId);
     }
 
     // Building the columns array for recipes to serve to React Tabulator Component
-    const columns = [
+    const recipesColumns = [
         { title: "Id", field: "id", hozAlign: "center", vertAlign: "middle", visible: false },
         { title: "Image", field: "img_name", formatter: imageFormatter, hozAlign: "center", vertAlign: "middle" },
         { title: "Recette", field: "title", vertAlign: "middle", width: 500, formatter: recipeTitleFormatter },
@@ -80,7 +75,7 @@ const Basket = () => {
     return (
         <div>
             <Menu />
-            <BasketBtns handleToggleIngredientsClick={handleToggleIngredientsClick} showIngredients={showIngredients} />
+            <BasketBtns handleToggleIngredientsClick={handleToggleIngredientsClick} showIngredients={showIngredients} handleDeleteBasketClick={handleDeleteBasketClick} />
             <div className="basket-indicators">
                 <div className="basket-indicators-box">
                     <label className="basket-label">Nombre de recettes</label>
@@ -94,8 +89,8 @@ const Basket = () => {
             <div className="basket-table">
                 {recipesCount > 0 && !showIngredients &&
                     <ReactTabulator
-                        data={data}
-                        columns={columns}
+                        data={recipes}
+                        columns={recipesColumns}
                         layout={"fitColumns"}
                     />
                 }
@@ -117,5 +112,42 @@ const Basket = () => {
         </div>
     )
 }
+
+BasketBtns.propTypes = {
+    recipesCount: PropTypes.shape({
+        count: PropTypes.number.isRequired
+    }).isRequired,
+    mealsCount: PropTypes.shape({
+        sum: PropTypes.number.isRequired
+    }).isRequired,
+    recipes: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        reference: PropTypes.string.isRequired,
+        img_name: PropTypes.string.isRequired,
+        text: PropTypes.string.isRequired,
+        meal_qty: PropTypes.number.isRequired,
+        cooking_time: PropTypes.shape({
+            hours: PropTypes.number,
+            minutes: PropTypes.number.isRequired
+        }).isRequired,
+        preparation_time: PropTypes.shape({
+            hours: PropTypes.number,
+            minutes: PropTypes.number.isRequired
+        }).isRequired,
+        type_id: PropTypes.number.isRequired,
+        basket: PropTypes.bool.isRequired
+    })).isRequired,
+    handleDispatchDeleteOneBasket: PropTypes.func, //isRequired not working ?
+    handleDeleteBasketClick: PropTypes.func
+};
+
+BasketBtns.defaultProps = {
+    recipesCount: { count: 0 },
+    mealsCount: { sum: 0 },
+    recipes: []
+
+};
+
 
 export default React.memo(Basket);

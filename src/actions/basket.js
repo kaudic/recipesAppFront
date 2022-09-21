@@ -34,7 +34,6 @@ export function actionFetchDeleteAllBasket() {
  * @returns {Action}
  */
 export function actionSetBasketList(basketList) {
-    console.log('dispatching SET basket list');
     return { type: SET_BASKET_LIST, payload: basketList };
 }
 

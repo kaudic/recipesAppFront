@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import CardIndicators from '../CardIndicators/CardIndicators';
 import './card.scss';
-import { useDispatch } from 'react-redux';
-import { actionFetchAddOneBasket } from '../../actions/basket';
+
 
 const Card = ({
   id,
@@ -15,13 +14,10 @@ const Card = ({
   meal_qty,
   cooking_time,
   preparation_time,
-  basket
+  basket,
+  handleAddToCartClick
 }) => {
-  const dispatch = useDispatch();
 
-  const handleAddToCartClick = () => {
-    dispatch(actionFetchAddOneBasket(id));
-  };
 
   return (
     <article className="card">
@@ -55,7 +51,9 @@ Card.propTypes = {
   }).isRequired,
   preparation_time: PropTypes.shape({
     minutes: PropTypes.number.isRequired,
-  }).isRequired
+  }).isRequired,
+  type_name: PropTypes.string.isRequired,
+  handleAddToCartClick: PropTypes.func
 };
 
 export default React.memo(Card);

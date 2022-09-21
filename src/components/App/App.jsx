@@ -1,20 +1,20 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Home from '../Home/Home';
+import HomeCtn from '../../containers/HomeCtn';
 import Error from '../Error/Error';
 import Recipe from '../../containers/RecipeCtn';
-import Forms from '../Forms/Forms';
-import Basket from '../Basket/Basket';
+import FormsCtn from '../../containers/FormsCtn';
+import BasketCtn from '../../containers/BasketCtn';
 
 import './App.scss';
 
 const App = () => {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<HomeCtn />} />
       <Route path="/recipe/:id" element={<Recipe />} />
-      <Route path="/create" element={<Forms />} />
-      <Route path="/basket" element={<Basket />} />
+      <Route path="/create" element={<FormsCtn />} />
+      <Route path="/basket" element={<BasketCtn />} />
       <Route path="*" element={<Error />} />
     </Routes>
   )

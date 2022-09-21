@@ -6,7 +6,7 @@ import CardIndicators from '../CardIndicators/CardIndicators';
 import Ingredient from '../Ingredient/Ingredient';
 import RecipeBtns from '../RecipeBtns/RecipeBtns';
 import { Link } from 'react-router-dom';
-import CarouselArrow from '../CarouselArrow/CarouselArrow';
+import CarouselArrowCtn from '../../containers/CarouselArrowCtn';
 
 const Recipe = ({ recipe, recipeInCart, handleDeleteClick, handleModifyClick, handleAddToCartClick }) => {
 
@@ -15,7 +15,7 @@ const Recipe = ({ recipe, recipeInCart, handleDeleteClick, handleModifyClick, ha
             <RecipeBtns handleDeleteClick={handleDeleteClick} handleModifyClick={handleModifyClick} handleAddToCartClick={handleAddToCartClick} recipeInCart={recipeInCart} />
             <div className="recipe">
                 <div className="recipe-div-arrows">
-                    <CarouselArrow direction={"left"} />
+                    <CarouselArrowCtn direction={"left"} />
                 </div>
                 <div className="recipe-div">
                     <h1 className="recipe-title">{recipe.title}</h1>
@@ -48,7 +48,7 @@ const Recipe = ({ recipe, recipeInCart, handleDeleteClick, handleModifyClick, ha
                     </ul>
                 </div>
                 <div className="recipe-div-arrows">
-                    <CarouselArrow direction={"right"} />
+                    <CarouselArrowCtn direction={"right"} />
                 </div>
             </div>
         </Page>

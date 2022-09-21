@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import Cards from '../Cards/Cards';
-import Menu from '../Menu/Menu';
+import MenuCtn from '../../containers/MenuCtn';
 import Page from '../Page/Page';
-import { useSelector, useDispatch } from 'react-redux';
-import { actionSetSearchList } from '../../actions/recipes';
 
-const Home = () => {
-    const dispatch = useDispatch();
-
-    // Get datas from the redux store
-    const recipes = useSelector((state) => state.recipes.list);
-    const recipesSearchList = useSelector((state) => state.recipes.searchList);
+const Home = ({
+    recipes,
+    recipesSearchList,
+    handleSetSearchList
+}) => {
 
     // internal state for controlling the input search field
     const [searchString, setSearchString] = useState('');
@@ -38,11 +36,9 @@ const Home = () => {
         // in case there is no search string then we decide to start from all recipes in the search list and then apply the checkBox filter
         if (searchString === '') {
             const filteredRecipesFromCheckbox = recipes.filter((recipe) => {
-                console.log(typeFilter);
-                console.log(recipe.id, typeFilter.includes(parseInt(recipe.id)));
                 return typeFilter.includes(parseInt(recipe.type_id));
             })
-            dispatch(actionSetSearchList(filteredRecipesFromCheckbox));
+            handleSetSearchList(filteredRecipesFromCheckbox);
             return;
         }
 
@@ -71,11 +67,10 @@ const Home = () => {
                 (typeFilter.includes(parseInt(recipe.type_id)))
             )
         })
-
-        dispatch(actionSetSearchList(searchRecipes));
+        handleSetSearchList(searchRecipes);
         return;
 
-    }, [searchString, recipes, typeFilter, dispatch]);
+    }, [searchString, recipes, typeFilter]);
 
     // function to filter the recipes by looking for a searchString
     const handleSearchOnChange = (event) => {
@@ -84,10 +79,55 @@ const Home = () => {
 
     return (
         <Page>
-            <Menu handleSearchOnChange={handleSearchOnChange} updateTypeFilter={updateTypeFilter} />
+            <MenuCtn handleSearchOnChange={handleSearchOnChange} updateTypeFilter={updateTypeFilter} />
             <Cards recipes={recipesSearchList} />
         </Page>
     )
+}
+
+Home.propTypes = {
+    recipes: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        reference: PropTypes.string.isRequired,
+        img_name: PropTypes.string.isRequired,
+        text: PropTypes.string.isRequired,
+        meal_qty: PropTypes.number.isRequired,
+        cooking_time: PropTypes.shape({
+            hours: PropTypes.number,
+            minutes: PropTypes.number.isRequired
+        }).isRequired,
+        preparation_time: PropTypes.shape({
+            hours: PropTypes.number,
+            minutes: PropTypes.number.isRequired
+        }).isRequired,
+        type_id: PropTypes.number.isRequired,
+        basket: PropTypes.bool.isRequired
+    })).isRequired,
+    recipesSearchList: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        reference: PropTypes.string.isRequired,
+        img_name: PropTypes.string.isRequired,
+        text: PropTypes.string.isRequired,
+        meal_qty: PropTypes.number.isRequired,
+        cooking_time: PropTypes.shape({
+            hours: PropTypes.number,
+            minutes: PropTypes.number.isRequired
+        }).isRequired,
+        preparation_time: PropTypes.shape({
+            hours: PropTypes.number,
+            minutes: PropTypes.number.isRequired
+        }).isRequired,
+        type_id: PropTypes.number.isRequired,
+        basket: PropTypes.bool.isRequired
+    })).isRequired,
+    handleSetSearchList: PropTypes.func
+}
+
+Home.defaultProps = {
+    recipes: [],
+    recipesSearchList: []
 }
 
 export default React.memo(Home);

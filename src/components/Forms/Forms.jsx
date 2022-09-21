@@ -2,17 +2,16 @@ import React, { useState } from 'react';
 import Menu from '../Menu/Menu';
 import FormsTabs from '../FormsTabs/FormsTabs';
 import RecipeForm from '../RecipeForm/RecipeForm';
-import { useSelector } from 'react-redux';
 import './forms.scss';
 import FormsIngredients from '../FormsIngredients/FormsIngredients';
 import FormsUnits from '../FormsUnits/FormsUnits';
+import PropTypes from 'prop-types';
 
-const Forms = () => {
-
-    // Get datas from the redux store
-    const units = useSelector((state) => state.units.list);
-    const types = useSelector((state) => (state.types.list));
-    const ingredients = useSelector((state) => state.ingredients.list);
+const Forms = ({
+    units,
+    types,
+    ingredients
+}) => {
 
     // State for the value - it represents the selected entry of the side menu
     const [tabsValue, setTabsValue] = useState(0);
@@ -34,5 +33,22 @@ const Forms = () => {
         </>
     )
 }
+
+Forms.propTypes = {
+    units: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        short_name: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired
+    })).isRequired,
+    types: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired
+    })).isRequired,
+    ingredients: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+        main_unit_id: PropTypes.number.isRequired,
+    })).isRequired,
+};
 
 export default React.memo(Forms);
