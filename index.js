@@ -12,10 +12,10 @@ app.use((req, res, next) => {
 
 app.use(express.static(path.join(__dirname, "build")));
 
-// app.get('/', async (req, res) => {
-//     console.log('request received in recipesAppFront - trying to serve react static file2');
-//     res.sendFile(path.join(__dirname, "build", "index.html"));
-// });
+app.get('/', async (req, res) => {
+    console.log('request received in recipesAppFront - trying to serve react static file2');
+    res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 // app listenning to port
 app.listen(port, () => {
