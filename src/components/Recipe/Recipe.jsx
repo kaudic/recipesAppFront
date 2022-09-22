@@ -10,10 +10,7 @@ import CarouselArrowCtn from '../../containers/CarouselArrowCtn';
 
 const Recipe = ({ recipe, recipeInCart, handleDeleteClick, handleModifyClick, handleAddToCartClick }) => {
 
-    const baseUrl = process.env.NODE_ENV === 'production' ?
-        (`http://audicserver.ddns.net:3000/recipesAppBack/images`)
-        :
-        process.env.REACT_APP_BASE_URL_DEV;
+    const baseUrl = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_BASE_URL_PROD : process.env.REACT_APP_BASE_URL_DEV;
 
     return (
         <Page>
@@ -30,7 +27,7 @@ const Recipe = ({ recipe, recipeInCart, handleDeleteClick, handleModifyClick, ha
                             <p>{recipe.reference}</p>
                         }
                     </h2>
-                    <img src={`${baseUrl}/${recipe.img_name}`} alt={"recipe.img_name"}></img>
+                    <img src={`${baseUrl}/images/${recipe.img_name}`} alt={"recipe.img_name"}></img>
 
                     <CardIndicators
                         className="recipe-indicators"
