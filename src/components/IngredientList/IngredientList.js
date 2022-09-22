@@ -18,7 +18,7 @@ const IngredientList = ({
   ingredientListClassName,
   ingredientFormClassName
 }) => {
-  console.log(ingredients);
+
   return (
     <>
       <h1 className="recipeForm-title">Liste des ingrédients
