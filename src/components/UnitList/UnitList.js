@@ -43,6 +43,7 @@ UnitList.propTypes = {};
 UnitList.defaultProps = {
     unitListClassName: '',
     unitFormClassName: '',
+    units: []
 }
 
 export default React.memo(UnitList);

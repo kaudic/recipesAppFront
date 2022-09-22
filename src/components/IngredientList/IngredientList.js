@@ -18,6 +18,7 @@ const IngredientList = ({
   ingredientListClassName,
   ingredientFormClassName
 }) => {
+  console.log(ingredients);
   return (
     <>
       <h1 className="recipeForm-title">Liste des ingrédients
@@ -52,7 +53,8 @@ IngredientList.defaultProps = {
   showQty: true,
   ingredientListClassName: '',
   ingredientFormClassName: '',
-  enableIngredientName: false
+  enableIngredientName: false,
+  ingredients: []
 }
 
 export default React.memo(IngredientList);
