@@ -10,7 +10,10 @@ import CarouselArrowCtn from '../../containers/CarouselArrowCtn';
 
 const Recipe = ({ recipe, recipeInCart, handleDeleteClick, handleModifyClick, handleAddToCartClick }) => {
 
-    const baseUrl = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_BASE_URL_PROD : process.env.REACT_APP_BASE_URL_DEV;
+    const baseUrl = process.env.NODE_ENV === 'production' ?
+        (`${process.env.REACT_APP_BASE_URL_PROD}/images/${recipe.img_name}`).replace('/recipe', '')
+        :
+        process.env.REACT_APP_BASE_URL_DEV;
 
     return (
         <Page>
