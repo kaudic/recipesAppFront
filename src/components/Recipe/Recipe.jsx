@@ -27,7 +27,7 @@ const Recipe = ({ recipe, recipeInCart, handleDeleteClick, handleModifyClick, ha
                             <p>{recipe.reference}</p>
                         }
                     </h2>
-                    <img src={`${baseUrl}/images/${recipe.img_name}`} alt={"recipe.img_name"}></img>
+                    <img src={`${baseUrl}/../images/${recipe.img_name}`} alt={"recipe.img_name"}></img>
 
                     <CardIndicators
                         className="recipe-indicators"
