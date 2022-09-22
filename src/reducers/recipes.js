@@ -32,7 +32,6 @@ const reducer = (state = initialState, action = {}) => {
       };
     }
     case SET_PUT_RECIPE: {
-      console.log('setting PIT RECIPE');
       const modifiedRecipe = action.payload;
       const updatedState = { ...updateRecipeFromStateRecipes(state, modifiedRecipe) };
       return updatedState;

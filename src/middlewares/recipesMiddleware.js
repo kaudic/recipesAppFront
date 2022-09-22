@@ -32,7 +32,7 @@ const recipesMiddleware = (store) => (next) => async (action) => {
     case FETCH_PUT_RECIPE: {
       const response = await requestFetchPutRecipe(action.payload);
       if (response.status === 200) {
-        store.dispatch(actionSetPutRecipe(response.data));
+        store.dispatch(actionFetchRecipesList());
       }
       return;
     }
