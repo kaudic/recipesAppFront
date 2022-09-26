@@ -54,7 +54,7 @@ const IngredientDialogBox = ({
                     autoComplete
                     value={name}
                     renderInput={(params) => (
-                        <TextField {...params} label="Taper un ingrédient" variant="standard" />
+                        <TextField {...params} label="Taper un ingrédient" variant="standard" focused />
                     )}
                     onChange={handleChangeOfIngredient}
                 /> :

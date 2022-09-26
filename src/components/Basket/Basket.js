@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './basket.scss';
-import Menu from '../Menu/Menu';
+import MenuCtn from '../../containers/MenuCtn';
 import 'react-tabulator/lib/styles.css';
 import { ReactTabulator } from 'react-tabulator';
 import TextField from '@mui/material/TextField';
@@ -29,7 +29,7 @@ const Basket = ({
         // Update the state to show the table of ingredients
         setShowIngredients((oldState) => !oldState);
 
-        // UPdate the state containing the list of ingredients
+        // Update the state containing the list of ingredients
         setIngredients(list.data);
     }
 
@@ -52,14 +52,26 @@ const Basket = ({
         handleDispatchDeleteOneBasket(recipeId);
     }
 
+    // Function to format the time of cooking and preparation
+    const timeFormatter = (cell) => {
+        if (cell.getValue().hours) {
+            return `<p class="basket-table-cell--figures">
+            ${cell.getValue().hours}h${cell.getValue().minutes ? cell.getValue().minutes + 'mn' : '00'}
+        </p>`;
+        }
+        return `<p class="basket-table-cell--figures">
+        ${cell.getValue().minutes}mn
+        </p>`;
+    }
+
     // Building the columns array for recipes to serve to React Tabulator Component
     const recipesColumns = [
         { title: "Id", field: "id", hozAlign: "center", vertAlign: "middle", visible: false },
         { title: "Image", field: "img_name", formatter: imageFormatter, hozAlign: "center", vertAlign: "middle" },
         { title: "Recette", field: "title", vertAlign: "middle", width: 500, formatter: recipeTitleFormatter },
         { title: "Référence", field: "reference", vertAlign: "middle", width: 500 },
-        { title: "Tps Cuisson", field: "cooking_time.minutes", hozAlign: "center", vertAlign: "middle", formatter: figuresFormatter },
-        { title: "Tps Préparation", field: "preparation_time.minutes", hozAlign: "center", vertAlign: "middle", formatter: figuresFormatter },
+        { title: "Tps Cuisson", field: "cooking_time", hozAlign: "center", vertAlign: "middle", formatter: timeFormatter },
+        { title: "Tps Préparation", field: "preparation_time", hozAlign: "center", vertAlign: "middle", formatter: timeFormatter },
         { title: "Nb repas", field: "meal_qty", hozAlign: "center", vertAlign: "middle", formatter: figuresFormatter },
         { title: 'Suppression', formatter: "buttonCross", hozAlign: "center", vertAlign: "middle", cellClick: deleteFromBasket },
     ];
@@ -75,7 +87,7 @@ const Basket = ({
 
     return (
         <div>
-            <Menu />
+            <MenuCtn />
             <BasketBtns handleToggleIngredientsClick={handleToggleIngredientsClick} showIngredients={showIngredients} handleDeleteBasketClick={handleDeleteBasketClick} />
             <div className="basket-indicators">
                 <div className="basket-indicators-box">
@@ -130,11 +142,11 @@ BasketBtns.propTypes = {
         meal_qty: PropTypes.number.isRequired,
         cooking_time: PropTypes.shape({
             hours: PropTypes.number,
-            minutes: PropTypes.number.isRequired
+            minutes: PropTypes.number
         }).isRequired,
         preparation_time: PropTypes.shape({
             hours: PropTypes.number,
-            minutes: PropTypes.number.isRequired
+            minutes: PropTypes.number
         }).isRequired,
         type_id: PropTypes.number.isRequired,
         basket: PropTypes.bool.isRequired

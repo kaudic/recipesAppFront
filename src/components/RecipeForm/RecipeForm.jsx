@@ -33,12 +33,31 @@ const RecipeForm = ({ recipe, units, types, ingredientsList, setModify, handleCa
         display: 'flex', alignItems: 'flex-end', marginTop: '20px', width: '60%'
     };
 
+    // Function to calculate minutes in time preparation and cooking
+    const minutesCalculator = (timeObject) => {
+        let minutes;
+        if (timeObject.hours) {
+            if (timeObject.minutes) {
+                minutes = timeObject.hours * 60 + timeObject.minutes
+            } else {
+                minutes = timeObject.hours * 60
+            }
+        } else {
+            if (timeObject.minutes) {
+                minutes = timeObject.minutes
+            } else {
+                minutes = 0;
+            }
+        }
+        return minutes;
+    }
+
     // States for the form - use of a custom hook to handle inputs
     const [spreadInputTitle, title, setTitle] = useControlledInput(recipe.title);
     const [spreadInputReference, reference, setReference] = useControlledInput(recipe.reference);
     const [spreadInputMealQty, mealQty, setMealQty] = useControlledInput(recipe.meal_qty);
-    const [spreadInputPreparationTime, preparationTime, setPreparationTime] = useControlledInput(recipe.preparation_time.minutes);
-    const [spreadInputCookingTime, cookingTime, setCookingTime] = useControlledInput(recipe.cooking_time.minutes);
+    const [spreadInputPreparationTime, preparationTime, setPreparationTime] = useControlledInput(minutesCalculator(recipe.preparation_time));
+    const [spreadInputCookingTime, cookingTime, setCookingTime] = useControlledInput(minutesCalculator(recipe.cooking_time));
     const [spreadInputText, text, setText] = useControlledInput(recipe.text);
     const [typeId, setTypeId] = useState(recipe.type_id);
 

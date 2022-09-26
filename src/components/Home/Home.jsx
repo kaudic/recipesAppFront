@@ -95,11 +95,11 @@ Home.propTypes = {
         meal_qty: PropTypes.number.isRequired,
         cooking_time: PropTypes.shape({
             hours: PropTypes.number,
-            minutes: PropTypes.number.isRequired
+            minutes: PropTypes.number
         }).isRequired,
         preparation_time: PropTypes.shape({
             hours: PropTypes.number,
-            minutes: PropTypes.number.isRequired
+            minutes: PropTypes.number
         }).isRequired,
         type_id: PropTypes.number.isRequired,
         basket: PropTypes.bool.isRequired
@@ -113,11 +113,11 @@ Home.propTypes = {
         meal_qty: PropTypes.number.isRequired,
         cooking_time: PropTypes.shape({
             hours: PropTypes.number,
-            minutes: PropTypes.number.isRequired
+            minutes: PropTypes.number
         }).isRequired,
         preparation_time: PropTypes.shape({
             hours: PropTypes.number,
-            minutes: PropTypes.number.isRequired
+            minutes: PropTypes.number
         }).isRequired,
         type_id: PropTypes.number.isRequired,
         basket: PropTypes.bool.isRequired

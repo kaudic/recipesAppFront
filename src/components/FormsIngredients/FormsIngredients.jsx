@@ -94,7 +94,7 @@ const FormsIngredients = ({
 
     return (
         <div className="forms-ingredient">
-            <TextField onChange={handleIngredientsSearchOnChange} placeholder="Rechercher un ingrédient" />
+            <TextField onChange={handleIngredientsSearchOnChange} placeholder="Rechercher un ingrédient" focused />
             <IngredientList
                 handleIngredientDialBoxClickOpen={handleIngredientDialBoxClickOpen}
                 ingredients={searchIngredients}

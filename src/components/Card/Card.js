@@ -48,10 +48,10 @@ Card.propTypes = {
   img_name: PropTypes.string.isRequired,
   meal_qty: PropTypes.number.isRequired,
   cooking_time: PropTypes.shape({
-    minutes: PropTypes.number.isRequired,
+    minutes: PropTypes.number,
   }).isRequired,
   preparation_time: PropTypes.shape({
-    minutes: PropTypes.number.isRequired,
+    minutes: PropTypes.number,
   }).isRequired,
   type_name: PropTypes.string.isRequired,
   handleAddToCartClick: PropTypes.func
