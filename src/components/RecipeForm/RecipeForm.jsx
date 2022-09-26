@@ -143,7 +143,7 @@ const RecipeForm = ({ recipe, units, types, ingredientsList, setModify, handleCa
 
         // check if an image is enclosed and therefore send a 2nd query
         if (imgData) {
-            dispatch(actionFetchPutImage(imgData))
+            dispatch(actionFetchPutImage(convertObjectToFormData(imgData)))
         }
         setModify(false);
     }

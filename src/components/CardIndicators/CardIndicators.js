@@ -22,11 +22,13 @@ const CardIndicators = ({
             </IconButton>
             <IconButton aria-label="Prépa" color='secondary'>
                 <AccessTimeIcon />
-                {preparationTime.hours ? preparationTime.hours + 'h' : ''}{preparationTime.minutes} mn
+                {preparationTime.hours ? preparationTime.hours + 'h' : ''}
+                {preparationTime.minutes ? preparationTime.minutes + 'mn' : '00'}
             </IconButton>
             <IconButton aria-label="Cuisson" color='success'>
                 <MicrowaveIcon />
-                {cookingTime.hours ? cookingTime.hours + 'h' : ''}{cookingTime.minutes} mn
+                {cookingTime.hours ? cookingTime.hours + 'h' : ''}
+                {cookingTime.minutes ? cookingTime.minutes + 'mn' : '00'}
             </IconButton>
         </div>
     )

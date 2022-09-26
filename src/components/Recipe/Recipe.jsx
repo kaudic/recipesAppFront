@@ -27,7 +27,7 @@ const Recipe = ({ recipe, recipeInCart, handleDeleteClick, handleModifyClick, ha
                             <p>{recipe.reference}</p>
                         }
                     </h2>
-                    <img src={`${baseUrl}/images/${recipe.img_name}`} alt={"recipe.img_name"}></img>
+                    <img className="recipe-div-img" src={`${baseUrl}/images/${recipe.img_name}`} alt={"recipe.img_name"}></img>
 
                     <CardIndicators
                         className="recipe-indicators"
@@ -41,7 +41,8 @@ const Recipe = ({ recipe, recipeInCart, handleDeleteClick, handleModifyClick, ha
                     <span className={`recipe-type 
         ${recipe.type_name === 'VIANDE' ? 'recipe-type-viande' :
                             recipe.type_name === 'POISSON' ? 'recipe-type-poisson' : 'recipe-type-vegan'}`}>{recipe.type_name}</span>
-                    {recipe.text}
+
+                    <p className="recipe-div-text">{recipe.text}</p>
                 </div>
                 <div className="recipe-div">
                     <h1 className="recipe-title">Liste des ingrédients</h1>

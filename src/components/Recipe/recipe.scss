@@ -32,6 +32,15 @@
         align-items: center;
         width: 30vw;
 
+        &-img {
+            max-width: 500px;
+        }
+
+        &-text {
+            padding: 0 0px 0 30px;
+            white-space: pre-wrap;
+        }
+
         &-arrows {
             width: 5vw;
         }
