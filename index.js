@@ -5,11 +5,6 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT ?? 3002;
 
-app.use((req, res, next) => {
-    console.log('request received in recipesAppFront - trying to serve react static file1');
-    next();
-});
-
 app.use(express.static(path.join(__dirname, "build")));
 
 app.get('/', async (req, res) => {
