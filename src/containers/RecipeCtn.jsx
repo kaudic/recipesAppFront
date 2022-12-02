@@ -4,7 +4,7 @@ import { useParams, Navigate } from 'react-router-dom';
 import { findRecipeByPk } from '../selectors/recipes';
 import Recipe from '../components/Recipe/Recipe';
 import RecipeForm from '../components/RecipeForm/RecipeForm';
-import Menu from '../components/Menu/Menu';
+import MenuCtn from '../containers/MenuCtn';
 import { actionFetchDeleteRecipe, actionFetchRecipesList } from '../actions/recipes';
 import Swal from 'sweetalert2';
 import { actionFetchAddOneBasket } from '../actions/basket';
@@ -79,7 +79,7 @@ const RecipeCtn = () => {
 
     return (
         <>
-            <Menu />
+            <MenuCtn />
 
             {
                 modify ?

@@ -15,6 +15,8 @@ const MenuCtn = ({
         dispatch(actionSetRandomRecipe());
     }
 
+    console.log('Rendering Menu Ctn, value of recipeCount = '+recipeCount);
+
     return (
         <Menu
             recipeCount={recipeCount}
@@ -25,4 +27,4 @@ const MenuCtn = ({
     )
 }
 
-export default React.memo(MenuCtn);
+export default MenuCtn;

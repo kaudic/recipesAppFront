@@ -77,6 +77,8 @@ const Menu = ({
         updateTypeFilter(event.target.value);
     }
 
+    console.log('Rendering Menu: value of recipeCount received: ' + recipeCount);
+
     return (
         <Box sx={{ flexGrow: 1, height: "150px" }}>
             <AppBar position="static">
