@@ -146,7 +146,7 @@ Menu.propTypes = {
 }
 
 Menu.defaultProps = {
-    recipeCount: 0
+    // recipeCount: 0
 }
 
 export default React.memo(Menu);
