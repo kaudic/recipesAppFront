@@ -68,8 +68,8 @@ const Basket = ({
     const recipesColumns = [
         { title: "Id", field: "id", hozAlign: "center", vertAlign: "middle", visible: false },
         { title: "Image", field: "img_name", formatter: imageFormatter, hozAlign: "center", vertAlign: "middle" },
-        { title: "Recette", field: "title", vertAlign: "middle", width: 500, formatter: recipeTitleFormatter },
-        { title: "Référence", field: "reference", vertAlign: "middle", width: 500 },
+        { title: "Recette", field: "title", vertAlign: "middle", formatter: recipeTitleFormatter },
+        { title: "Référence", field: "reference", vertAlign: "middle" },
         { title: "Tps Cuisson", field: "cooking_time", hozAlign: "center", vertAlign: "middle", formatter: timeFormatter },
         { title: "Tps Préparation", field: "preparation_time", hozAlign: "center", vertAlign: "middle", formatter: timeFormatter },
         { title: "Nb repas", field: "meal_qty", hozAlign: "center", vertAlign: "middle", formatter: figuresFormatter },
@@ -120,7 +120,6 @@ const Basket = ({
                 <div className='basket-empty'>
                     <h1 className="basket-empty-title">LE PANIER EST VIDE</h1>
                     <ShoppingBasketIcon color="warning" sx={{ fontSize: "100px" }} />
-
                 </div>}
         </div>
     )
