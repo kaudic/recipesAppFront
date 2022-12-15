@@ -1,0 +1,34 @@
+.login {
+
+  &-login {
+    margin: 0 15px 5px 150px;
+    color: black;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 30px;
+  }
+
+  &-form {
+// justify-self: flex-end;
+    // width: 30%;
+    margin-left: 150px;
+display: flex;
+justify-content: flex-end;
+align-items: flex-end;
+  }
+
+  &-input {
+height: 2.4rem;
+border-radius: 0.4rem;
+margin: 0 0.3rem;
+border: 0.2rem solid black;
+background-color: #3b88d4;
+color: black;
+
+  }
+  &-input::placeholder {
+
+    color: white;
+      }
+
+}

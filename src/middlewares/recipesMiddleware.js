@@ -24,8 +24,15 @@ const recipesMiddleware = (store) => (next) => async (action) => {
     }
     case FETCH_DELETE_RECIPE: {
       const response = await requestFetchDeleteRecipe(action.payload);
+      console.log(JSON.stringify(response));
       if (response.status === 204) {
         store.dispatch(actionSetDeleteRecipe(action.payload));
+      } else if (response === 'Request failed with status code 401') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `Vous n'avez pas les autorisations pour effectuer cette action`,
+        })
       }
       return;
     }
@@ -33,6 +40,12 @@ const recipesMiddleware = (store) => (next) => async (action) => {
       const response = await requestFetchPutRecipe(action.payload);
       if (response.status === 200) {
         store.dispatch(actionFetchRecipesList());
+      } else if (response === 'Request failed with status code 401') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `Vous n'avez pas les autorisations pour effectuer cette action`,
+        })
       }
       return;
     }
@@ -54,6 +67,12 @@ const recipesMiddleware = (store) => (next) => async (action) => {
         }
         // we make another call to get all recipes after a slight timeout so that the update of image is fully finished
         setTimeout(() => store.dispatch(actionFetchRecipesList()), 500);
+      } else if (response === 'Request failed with status code 401') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `Vous n'avez pas les autorisations pour effectuer cette action`,
+        })
       } else {
         Swal.fire({
           icon: 'error',
@@ -70,6 +89,12 @@ const recipesMiddleware = (store) => (next) => async (action) => {
           recipeId: response.data.result.id,
           imgName: response.data.result.img_name
         }));
+      } else if (response === 'Request failed with status code 401') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `Vous n'avez pas les autorisations pour effectuer cette action`,
+        })
       }
       return;
     }

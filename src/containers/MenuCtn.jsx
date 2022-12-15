@@ -10,12 +10,13 @@ const MenuCtn = ({
     const dispatch = useDispatch();
 
     const recipeCount = useSelector((state) => parseInt(state?.basket?.list?.recipesCount[0]?.count) || 0);
+    const user = useSelector((state) => (state.login));
+
 
     const handleShuffleClick = () => {
         dispatch(actionSetRandomRecipe());
     }
 
-    console.log('Rendering Menu Ctn, value of recipeCount = '+recipeCount);
 
     return (
         <Menu
@@ -23,6 +24,7 @@ const MenuCtn = ({
             handleShuffleClick={handleShuffleClick}
             updateTypeFilter={updateTypeFilter}
             handleSearchOnChange={handleSearchOnChange}
+            user={user}
         />
     )
 }

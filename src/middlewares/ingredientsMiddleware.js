@@ -21,6 +21,12 @@ const ingredientsMiddleware = (store) => (next) => async (action) => {
           // fetching a new list from API after deleting one ingredient
           actionFetchIngredientsList()
         );
+      } else if (response === 'Request failed with status code 401') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `Vous n'avez pas les autorisations pour effectuer cette action`,
+        })
       } else {
         // usually if status code = 500 it is because ingredient is used in recipe
         Swal.fire({
@@ -43,6 +49,12 @@ const ingredientsMiddleware = (store) => (next) => async (action) => {
           // fetching a new list from API after updating one ingredient
           actionFetchIngredientsList()
         );
+      } else if (response === 'Request failed with status code 401') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `Vous n'avez pas les autorisations pour effectuer cette action`,
+        })
       } else {
         // usually if status code = 500 it is because ingredient is used in recipe
         Swal.fire({
@@ -65,6 +77,12 @@ const ingredientsMiddleware = (store) => (next) => async (action) => {
           // fetching a new list from API after updating one ingredient
           actionFetchIngredientsList()
         );
+      } else if (response === 'Request failed with status code 401') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `Vous n'avez pas les autorisations pour effectuer cette action`,
+        })
       } else {
         // usually if status code = 500 it is because ingredient is used in recipe
         Swal.fire({

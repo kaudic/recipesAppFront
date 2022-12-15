@@ -32,7 +32,6 @@ const Basket = ({
         // Update the state containing the list of ingredients
         setIngredients(list.data);
     }
-
     // Function to format Recipe title
     const recipeTitleFormatter = (cell) => {
         return `<p class="basket-table-cell--recipe">${cell.getValue()}</p>`;
@@ -51,7 +50,6 @@ const Basket = ({
         const recipeId = cell.getData().id;
         handleDispatchDeleteOneBasket(recipeId);
     }
-
     // Function to format the time of cooking and preparation
     const timeFormatter = (cell) => {
         if (cell.getValue().hours) {
@@ -82,7 +80,6 @@ const Basket = ({
         { title: "Quantité", field: "sum", hozAlign: "center", vertAlign: "middle", width: 300 },
         { title: "Unité", field: "unit_name", hozAlign: "center", vertAlign: "middle", width: 300 },
         { title: "Ingrédient", field: "name", vertAlign: "middle", hozAlign: "center", width: 797 },
-
     ];
 
     return (

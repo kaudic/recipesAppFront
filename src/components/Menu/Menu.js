@@ -15,6 +15,7 @@ import Badge from '@mui/material/Badge';
 import Button from '@mui/material/Button';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import Login from '../Login/Login';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -68,7 +69,8 @@ const Menu = ({
     handleSearchOnChange,
     updateTypeFilter,
     recipeCount,
-    handleShuffleClick
+    handleShuffleClick,
+    user
 }) => {
 
     const url = window.location.pathname;
@@ -76,8 +78,6 @@ const Menu = ({
     const handleCheckboxClick = (event) => {
         updateTypeFilter(event.target.value);
     }
-
-    console.log('Rendering Menu: value of recipeCount received: ' + recipeCount);
 
     return (
         <Box sx={{ flexGrow: 1, height: "150px" }}>
@@ -133,6 +133,8 @@ const Menu = ({
                             <Button variant="contained" color="secondary" className="menu-shuffle" onClick={handleShuffleClick}>
                                 Shuffle
                             </Button>
+                            <Login user={user} />
+
                         </>}
                 </Toolbar>
             </AppBar>

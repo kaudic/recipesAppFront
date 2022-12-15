@@ -26,6 +26,12 @@ const typesMiddleware = (store) => (next) => async (action) => {
           // get a fresh list of Types
           actionFetchTypesList()
         );
+      } else if (response === 'Request failed with status code 401') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `Vous n'avez pas les autorisations pour effectuer cette action`,
+        })
       } else {
         Swal.fire({
           icon: 'error',
@@ -47,6 +53,12 @@ const typesMiddleware = (store) => (next) => async (action) => {
           // get a fresh list of Units
           actionFetchTypesList()
         );
+      } else if (response === 'Request failed with status code 401') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `Vous n'avez pas les autorisations pour effectuer cette action`,
+        })
       } else {
         Swal.fire({
           icon: 'error',
@@ -68,6 +80,12 @@ const typesMiddleware = (store) => (next) => async (action) => {
           // get a fresh list of Types
           actionFetchTypesList()
         );
+      } else if (response === 'Request failed with status code 401') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `Vous n'avez pas les autorisations pour effectuer cette action`,
+        })
       } else {
         Swal.fire({
           icon: 'error',
